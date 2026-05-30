@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PillNav from './components/PillNav';
 
-// Konfigurálható Discord user ID (szerkeszthető)
+// Konfigurálható adatok
 const DISCORD_USER_ID: string = "1499037894386647133";
+const GITHUB_USERNAME: string = "szucsng";
 
 // DiscordCard komponens: Lanyard vizuális kártya
 const DiscordCard = () => {
@@ -84,46 +85,16 @@ type LanyardResponse = {
   };
 };
 
-type ProjectItem = {
-  title: string;
-  summary: string;
-  tags: string[];
-  status: "Kesz" | "Folyamatban" | "Tervezes";
-  year: string;
-  linkLabel: string;
-  linkHref: string;
+type GithubRepo = {
+  id: number;
+  name: string;
+  description: string;
+  html_url: string;
+  homepage: string;
+  topics: string[];
+  language: string;
+  pushed_at: string;
 };
-
-const PROJECTS: ProjectItem[] = [
-  {
-    title: "Portfolio v2",
-    summary: "Gyors, minimalista szemelyes oldal route-alapu felulettel es ujrafelhasznalhato komponensekkel.",
-    tags: ["React", "TypeScript", "Vite", "Tailwind"],
-    status: "Folyamatban",
-    year: "2026",
-    linkLabel: "Forraskod",
-    linkHref: "https://github.com"
-  },
-  {
-    title: "Adatbazis verseny projekt",
-    summary: "Komplex SQL feladatok, lekedezes-optimalizalas es statisztikai kiertes egy csapatos versenyfeladatban.",
-    tags: ["MySQL", "SQL", "Elemzes"],
-    status: "Kesz",
-    year: "2025",
-    linkLabel: "Reszletek",
-    linkHref: "https://github.com"
-  },
-  {
-    title: "Halozati lab csomag",
-    summary: "Cisco Packet Tracer laborok dokumentalasa, topologiak, hibakeresesi checklista es meresi jegyzetek.",
-    tags: ["Cisco", "Networking", "Troubleshooting"],
-    status: "Tervezes",
-    year: "2026",
-    linkLabel: "Hamarosan",
-    linkHref: "#"
-  }
-];
-
 
 const SocialItem = ({
   href,
@@ -148,6 +119,111 @@ const SocialItem = ({
   );
 };
 
+const ProjectsPage = () => {
+  const [repos, setRepos] = useState<GithubRepo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState<"all" | "web" | "other">("all");
+
+  useEffect(() => {
+    const fetchRepos = async () => {
+      try {
+        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`);
+        if (response.ok) {
+          const data = await response.json();
+          // Filter out forks if needed, or just take the data
+          setRepos(data.filter((repo: any) => !repo.fork));
+        }
+      } catch (error) {
+        console.error("Hiba a GitHub lekérdezés során:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRepos();
+  }, []);
+
+  const filteredRepos = repos.filter((repo) => {
+    if (activeFilter === "all") return true;
+    
+    // Egyszerű logika ami megpróbálja eldönteni hogy webes-e a projekt
+    const lang = repo.language?.toLowerCase() || "";
+    const isWeb = ["typescript", "javascript", "html", "css", "vue"].includes(lang) ||
+                  repo.topics?.some(t => ["react", "vue", "web", "html", "css", "nextjs"].includes(t));
+
+    if (activeFilter === "web") return isWeb;
+    if (activeFilter === "other") return !isWeb;
+    return true;
+  });
+
+  return (
+    <section className="projects-shell">
+      <header className="projects-header-large">
+        <h1 className="projects-title-large">Projektek.</h1>
+        <p className="projects-subtitle-large">Amiket építettem vagy éppen építek.</p>
+        
+        <div className="projects-filters">
+          <button 
+            className={`filter-btn ${activeFilter === 'all' ? 'filter-btn-active' : ''}`}
+            onClick={() => setActiveFilter('all')}
+          >
+            Összes
+          </button>
+          <button 
+            className={`filter-btn ${activeFilter === 'web' ? 'filter-btn-active' : ''}`}
+            onClick={() => setActiveFilter('web')}
+          >
+            Web
+          </button>
+          <button 
+            className={`filter-btn ${activeFilter === 'other' ? 'filter-btn-active' : ''}`}
+            onClick={() => setActiveFilter('other')}
+          >
+            Egyéb
+          </button>
+        </div>
+      </header>
+
+      {loading ? (
+        <p className="text-center text-zinc-500">Projektek betöltése a GitHubról...</p>
+      ) : (
+        <div className="projects-grid-modern">
+          {filteredRepos.map((repo) => (
+            <a
+              key={repo.id}
+              href={repo.html_url}
+              target="_blank"
+              rel="noreferrer"
+              className="project-card-modern"
+            >
+              <div className="project-card-header">
+                <h3>{repo.name.replace(/-/g, ' ')}</h3>
+                {repo.language && (
+                  <span className="project-badge modern-badge">{repo.language}</span>
+                )}
+              </div>
+              
+              <p className="project-desc-modern">
+                {repo.description || "Nincs megadva leírás a projekthez."}
+              </p>
+
+              <div className="project-tags-modern">
+                {repo.topics && repo.topics.length > 0 ? (
+                  repo.topics.map((topic) => (
+                    <span key={topic}>{topic}</span>
+                  ))
+                ) : (
+                  <span>GitHub</span>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+};
+
 // (PillNav is rendered inside the App component below)
 
 const HomePage = () => {
@@ -164,21 +240,21 @@ const HomePage = () => {
       </header>
 
       <section className="home-panels">
-        <article className="compact-card discord-compact">
+        <article className="discord-compact">
           <DiscordCard />
         </article>
 
         <article className="compact-card about-compact">
-          <center>
+          <div className="about-compact-content">
               <h2>
-                <HiMiniUserCircle /> About Me
+                <HiMiniUserCircle className="inline-icon" /> Röviden rólam
               </h2>
               <p>
                 Informatikát tanulok, a gyakorlatban főleg <strong>webes</strong> és <strong>adatbázis </strong>
                 feladatokon dolgozom. A sportból hozott fegyelem és fókusz a fejlesztői munkában is
                 végigkísér.
               </p>
-          </center>
+          </div>
         </article>
       </section>
     </main>
@@ -268,51 +344,47 @@ const AboutPage = () => {
   );
 };
 
-const ProjectsPage = () => {
+
+
+// Nav items (original Hungarian routes)
+const ContactPage = () => {
   return (
-    <section className="about-card projects-shell">
-      <header className="projects-header">
-        <p className="projects-kicker">Eddigi Projekteim</p>
+    <section className="projects-shell">
+      <header className="projects-header-large">
+        <h1 className="projects-title-large">Kapcsolat.</h1>
+        <p className="projects-subtitle-large">Itt tudsz elérni.</p>
       </header>
+      
+      <section className="about-card" style={{ marginTop: '2rem' }}>
+        <h2>Elérhetőségek</h2>
+        <p>
+          Ha szeretnél velem kapcsolatba lépni, egy közös projektről egyeztetni, vagy csak egy kérdésed van, nyugodtan keress az alábbi platformok bármelyikén:
+        </p>
 
-      <div className="projects-grid">
-        {PROJECTS.map((project) => (
-          <article className="project-card" key={project.title}>
-            <div className="project-topline">
-              <span className={`project-status project-status-${project.status.toLowerCase()}`}>{project.status}</span>
-              <span className="project-year">{project.year}</span>
-            </div>
-
-            <h3>{project.title}</h3>
-            <p>{project.summary}</p>
-
-            <div className="project-tags" aria-label="Technologiak">
-              {project.tags.map((tag) => (
-                <span key={`${project.title}-${tag}`}>{tag}</span>
-              ))}
-            </div>
-
-            <a
-              className="project-link"
-              href={project.linkHref}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${project.title} - ${project.linkLabel}`}
-            >
-              {project.linkLabel}
-            </a>
-          </article>
-        ))}
-      </div>
+        <ul className="soft-list" style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <li>
+            <strong>E-mail:</strong> <a href="mailto:mail@szucs.hu" style={{ color: "#9bd1ff", textDecoration: "none" }}>mail@szucs.hu</a>
+          </li>
+          <li>
+            <strong>Discord:</strong> <a href={`https://discord.com/users/${DISCORD_USER_ID}`} target="_blank" rel="noreferrer" style={{ color: "#9bd1ff", textDecoration: "none" }}>Profil megnyitása</a>
+          </li>
+          <li>
+            <strong>GitHub:</strong> <a href={`https://github.com/${GITHUB_USERNAME}`} target="_blank" rel="noreferrer" style={{ color: "#9bd1ff", textDecoration: "none" }}>github.com/{GITHUB_USERNAME}</a>
+          </li>
+          <li>
+            <strong>Instagram:</strong> <a href="https://www.instagram.com/noel.szucs.940" target="_blank" rel="noreferrer" style={{ color: "#9bd1ff", textDecoration: "none" }}>@noel.szucs.940</a>
+          </li>
+        </ul>
+      </section>
     </section>
   );
 };
 
-// Nav items (original Hungarian routes)
 const NAV_ITEMS = [
   { label: 'Főoldal', href: '/' },
   { label: 'Rólam', href: '/rolam' },
-  { label: 'Projektek', href: '/projektek' }
+  { label: 'Projektek', href: '/projektek' },
+  { label: 'Kapcsolat', href: '/kapcsolat' }
 ];
 
 
@@ -321,9 +393,9 @@ const App = () => {
     <div className="app-shell">
       <LetterGlitch
         className="background-glitch"
-        textColor="rgba(245,245,245,0.18)"
-        glowColor="rgba(255,255,255,0.07)"
-        backgroundColor="#0d0f14"
+        textColor="rgba(255,255,255,0.03)"
+        glowColor="transparent"
+        backgroundColor="#09090b"
       />
 
       <div className="content-layer">
@@ -334,6 +406,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/rolam" element={<AboutPage />} />
             <Route path="/projektek" element={<ProjectsPage />} />
+            <Route path="/kapcsolat" element={<ContactPage />} />
             <Route path="*" element={<HomePage />} />
           </Routes>
         </div>
