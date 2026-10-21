@@ -10,7 +10,7 @@ npm install
 npm run dev
 ```
 
-Ezután nyisd meg: http://localhost:3000
+Ezután nyisd meg: http://localhost:5070
 
 ## Amit szerkessz
 
@@ -51,9 +51,9 @@ Két egyszerű út van, attól függően, hogyan akarod üzemeltetni:
 ### B) Saját szerver (VPS) Node.js-szel
 
 1. `npm run build` — legenerálja a production buildet.
-2. `npm run start` — elindítja a Node szervert (alapból a 3000-es porton).
-3. Állíts be egy reverse proxy-t (pl. nginx vagy Caddy) a domaineden a
-   3000-es portra, és kérj HTTPS-t (pl. Caddy automatikusan, vagy
+2. `npm run start` — elindítja a Node szervert (az 5070-es porton).
+3. Állíts be egy reverse proxy-t (pl. nginx vagy Caddy) a domaineden az
+   5070-es portra, és kérj HTTPS-t (pl. Caddy automatikusan, vagy
    Let's Encrypt / certbot nginx-szel).
 4. A domain DNS-ében egy `A` rekordot állíts be a szervered IP-jére.
 5. Ajánlott egy folyamatszervező (pl. `pm2 start npm --name portfolio -- start`),
