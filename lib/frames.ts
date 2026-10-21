@@ -122,6 +122,7 @@ export const frames: Frame[] = [
       { label: "SZEREP", value: "Fejlesztő & designer" },
     ],
     href: "#",
+    logo: "/images/logos/plczk_art.png",
     swatch: ["#1d1a18", "#8a6b4f"],
     role: "Fejlesztő & designer",
     technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
