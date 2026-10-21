@@ -1,5 +1,8 @@
 node_modules
+.next
+.npm
 dist
+*.tsbuildinfo
 .vscode/*.log
 .DS_Store
 *.local

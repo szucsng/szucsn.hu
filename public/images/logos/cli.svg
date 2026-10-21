@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="96" viewBox="0 0 240 96">
+  <rect width="240" height="96" rx="14" fill="#F2EDE4" opacity="0.08"/>
+  <rect x="1" y="1" width="238" height="94" rx="13" fill="none" stroke="#F2EDE4" stroke-opacity="0.25" stroke-width="1.5"/>
+  <text x="120" y="60" text-anchor="middle" font-family="monospace, monospace" font-size="34" font-weight="700" fill="#F2EDE4">>_</text>
+  <text x="120" y="86" text-anchor="middle" font-family="monospace, monospace" font-size="9" letter-spacing="3" fill="#F2EDE4" opacity="0.55">CLI</text>
+</svg>

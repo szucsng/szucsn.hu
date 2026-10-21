@@ -1,0 +1,59 @@
+import Link from "next/link";
+import { siteConfig } from "@/lib/site";
+
+export default function Footer() {
+  return (
+    <footer className="border-t border-paper/10">
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-10">
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          {/* Left: copyright */}
+          <div>
+            <p className="font-mono text-[11px] text-grain/60">
+              © {new Date().getFullYear()} {siteConfig.name}
+            </p>
+            <p className="font-mono text-[11px] text-grain/40 mt-1">
+              {siteConfig.location}
+            </p>
+          </div>
+
+          {/* Center: nav */}
+          <nav className="flex items-center gap-8">
+            <Link
+              href="/"
+              className="font-mono text-[11px] tracking-widest2 uppercase text-grain/60 hover:text-paper transition-colors duration-300"
+            >
+              Főoldal
+            </Link>
+            <Link
+              href="/munkak"
+              className="font-mono text-[11px] tracking-widest2 uppercase text-grain/60 hover:text-paper transition-colors duration-300"
+            >
+              Munkáim
+            </Link>
+            <a
+              href="#rolam"
+              className="font-mono text-[11px] tracking-widest2 uppercase text-grain/60 hover:text-paper transition-colors duration-300"
+            >
+              Rólam
+            </a>
+          </nav>
+
+          {/* Right: social */}
+          <div className="flex items-center gap-5">
+            {siteConfig.social.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                className="font-mono text-[11px] tracking-widest2 uppercase text-grain/50 hover:text-paper transition-colors duration-300"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
