@@ -108,6 +108,26 @@ export const frames: Frame[] = [
   },
   {
     id: "05",
+    slug: "plczk-art",
+    kind: "code",
+    title: "plczk_art",
+    year: "2026",
+    description:
+      "A plczk_art művészeti munkáit bemutató weboldal: galériaközpontú, letisztult felület, ahol a képek és az alkotói profil egy helyen jelennek meg.",
+    longDescription:
+      "A plczk_art weboldala a művészeti munkák bemutatására készült. A hangsúly a képeken és az alkotások közötti könnyed navigáción van: visszafogott tipográfia, semleges színek és nagyvonalú térirányítás, hogy a látogató figyelmét semmi ne vonja el a munkákról.\n\nA felület reszponzívan épül fel, a galéria mobilon és desktopon is egységes élményt ad. A cél egy olyan portfólió volt, amely hosszú távon is könnyen bővíthető új sorozatokkal.",
+    meta: [
+      { label: "LANG", value: "TypeScript · React" },
+      { label: "STACK", value: "Next.js" },
+      { label: "SZEREP", value: "Fejlesztő & designer" },
+    ],
+    href: "#",
+    swatch: ["#1d1a18", "#8a6b4f"],
+    role: "Fejlesztő & designer",
+    technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+  },
+  {
+    id: "06",
     slug: "cli-eszkoz-csapatoknak",
     kind: "code",
     title: "CLI eszköz csapatoknak",
@@ -128,7 +148,7 @@ export const frames: Frame[] = [
     technologies: ["Go", "CLI", "GitHub Actions", "Semantic Versioning"],
   },
   {
-    id: "06",
+    id: "07",
     slug: "taj-karpátok",
     kind: "photo",
     title: "Táj — Kárpátok",
