@@ -123,7 +123,7 @@ export const frames: Frame[] = [
     ],
     href: "#",
     logo: "/images/logos/plczk_art.png",
-    swatch: ["#1d1a18", "#8a6b4f"],
+    swatch: ["#2a0e1a", "#e2559a"],
     role: "Fejlesztő & designer",
     technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
   },
