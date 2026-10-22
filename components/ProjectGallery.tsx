@@ -13,37 +13,59 @@ export default function ProjectGallery({ gallery, title }: Props) {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const touchStart = useRef<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  const next = useCallback(() => setIndex((i) => (i + 1) % gallery.length), [gallery.length]);
-  const prev = useCallback(() => setIndex((i) => (i - 1 + gallery.length) % gallery.length), [gallery.length]);
+  const open = useCallback((i: number) => {
+    setIndex(i);
+    setLightbox(true);
+  }, []);
 
-  /* Keyboard nav */
+  const next = useCallback(
+    () => setIndex((i) => (i + 1) % gallery.length),
+    [gallery.length],
+  );
+  const prev = useCallback(
+    () => setIndex((i) => (i - 1 + gallery.length) % gallery.length),
+    [gallery.length],
+  );
+
+  /* Keyboard navigation */
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (lightbox) {
-        if (e.key === "Escape") setLightbox(false);
-        if (e.key === "ArrowRight") next();
-        if (e.key === "ArrowLeft") prev();
-      }
+      if (!lightbox) return;
+      if (e.key === "Escape") setLightbox(false);
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [lightbox, next, prev]);
+
+  /* Lock page scroll while the album is open */
+  useEffect(() => {
+    if (!lightbox) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [lightbox]);
 
   /* Swipe gesture */
   const onTouchStart = useCallback((e: React.TouchEvent) => {
     touchStart.current = e.touches[0].clientX;
   }, []);
 
-  const onTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (touchStart.current === null) return;
-    const diff = touchStart.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      diff > 0 ? next() : prev();
-    }
-    touchStart.current = null;
-  }, [next, prev]);
+  const onTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (touchStart.current === null) return;
+      const diff = touchStart.current - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        diff > 0 ? next() : prev();
+      }
+      touchStart.current = null;
+    },
+    [next, prev],
+  );
 
   if (gallery.length === 0) return null;
 
@@ -51,113 +73,51 @@ export default function ProjectGallery({ gallery, title }: Props) {
     <>
       <section className="max-w-6xl mx-auto px-6 md:px-10">
         <Reveal>
-          {/* Main image */}
-          <div
-            ref={containerRef}
-            className="relative aspect-[3/2] w-full overflow-hidden border border-paper/10 cursor-pointer group"
-            onClick={() => setLightbox(true)}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          >
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={index}
-                src={gallery[index]}
-                alt={`${title} — ${index + 1}. kép`}
-                className="absolute inset-0 w-full h-full object-cover"
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
-              />
-            </AnimatePresence>
-
-            {/* Gradient overlays */}
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-void/50 to-transparent pointer-events-none" />
-            <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-void/30 to-transparent pointer-events-none" />
-
-            {/* Counter */}
-            <span className="absolute bottom-4 left-4 font-mono text-[11px] text-paper/80 bg-void/50 backdrop-blur-md px-3 py-1.5 border border-paper/10">
-              {String(index + 1).padStart(2, "0")}
-              <span className="text-paper/30 mx-1">/</span>
-              {String(gallery.length).padStart(2, "0")}
-            </span>
-
-            {/* Navigation arrows */}
-            {gallery.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); prev(); }}
-                  aria-label="Előző kép"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 h-11 w-11 inline-flex items-center justify-center border border-paper/20 bg-void/50 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-3 group-hover:translate-x-0"
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); next(); }}
-                  aria-label="Következő kép"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 h-11 w-11 inline-flex items-center justify-center border border-paper/20 bg-void/50 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300 opacity-0 group-hover:opacity-100 -translate-x-3 group-hover:translate-x-0"
-                >
-                  →
-                </button>
-              </>
-            )}
-
-            {/* Expand hint */}
-            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <span className="font-mono text-[10px] tracking-widest2 uppercase text-paper/60 bg-void/50 backdrop-blur-md px-2.5 py-1 border border-paper/10">
-                Nagyítás
-              </span>
+          {/* Album header */}
+          <div className="flex flex-wrap items-end justify-between gap-3 mb-5 border-b border-paper/10 pb-4">
+            <div>
+              <p className="font-mono text-[11px] tracking-widest3 uppercase text-safelight">
+                Album
+              </p>
+              <p className="mt-1 font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
+                {gallery.length} kép · kattints a nagyításhoz
+              </p>
             </div>
-
-            {/* Progress bar */}
-            {gallery.length > 1 && (
-              <div className="absolute inset-x-0 bottom-0 h-0.5 bg-paper/10">
-                <motion.div
-                  className="h-full bg-safelight"
-                  animate={{ width: `${((index + 1) / gallery.length) * 100}%` }}
-                  transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
-                />
-              </div>
-            )}
+            <span className="font-mono text-[11px] tracking-widest2 uppercase text-grain/40">
+              {title}
+            </span>
           </div>
 
-          {/* Thumbnails */}
-          {gallery.length > 1 && (
-            <div className="flex gap-2 mt-3">
-              {gallery.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setIndex(i)}
-                  aria-label={`${title} — ${i + 1}. kép`}
-                  aria-pressed={i === index}
-                  className={`relative flex-1 aspect-video overflow-hidden border transition-all duration-400 ${
-                    i === index
-                      ? "border-safelight opacity-100"
-                      : "border-paper/10 opacity-40 hover:opacity-70"
-                  }`}
-                >
-                  <img
-                    src={src}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  {/* Active indicator line */}
-                  {i === index && (
-                    <motion.div
-                      className="absolute inset-x-0 bottom-0 h-0.5 bg-safelight"
-                      layoutId="thumb-indicator"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Album grid — teljes kép, vágás nélkül */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 items-start">
+            {gallery.map((src, i) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => open(i)}
+                aria-label={`${title} — ${i + 1}. kép megnyitása`}
+                className="group relative block w-full overflow-hidden border border-paper/10 bg-void-light text-left transition-colors duration-400 hover:border-safelight/50"
+              >
+                <img
+                  src={src}
+                  alt={`${title} — ${i + 1}. kép`}
+                  className="block w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+
+                <span className="pointer-events-none absolute left-3 top-3 bg-void/50 backdrop-blur-sm px-2 py-1 font-mono text-[10px] tracking-widest2 uppercase text-paper/80">
+                  #{String(i + 1).padStart(2, "0")}
+                </span>
+
+                <span className="pointer-events-none absolute bottom-3 right-3 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/15 font-mono text-[10px] tracking-widest2 uppercase text-paper/80 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
+                  Nagyítás ↗
+                </span>
+              </button>
+            ))}
+          </div>
         </Reveal>
       </section>
 
@@ -165,21 +125,40 @@ export default function ProjectGallery({ gallery, title }: Props) {
       <AnimatePresence>
         {lightbox && (
           <motion.div
-            className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex items-center justify-center"
+            className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${title} album`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setLightbox(false)}
           >
-            {/* Close hint */}
-            <span className="absolute top-6 right-6 font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
+            {/* Counter */}
+            <span className="absolute top-5 left-5 font-mono text-[11px] tracking-widest2 uppercase text-paper/70 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/10">
+              {String(index + 1).padStart(2, "0")}
+              <span className="text-paper/30 mx-1">/</span>
+              {String(gallery.length).padStart(2, "0")}
+            </span>
+
+            {/* Close */}
+            <button
+              type="button"
+              onClick={() => setLightbox(false)}
+              aria-label="Bezárás"
+              className="absolute top-4 right-4 h-10 w-10 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
+            >
+              ×
+            </button>
+
+            <span className="hidden md:block absolute top-6 right-20 font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
               ESC a bezáráshoz
             </span>
 
             {/* Image */}
             <div
-              className="relative w-full max-w-5xl max-h-[85vh] mx-6"
+              className="relative flex max-h-[85vh] max-w-6xl items-center justify-center"
               onClick={(e) => e.stopPropagation()}
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
@@ -189,7 +168,7 @@ export default function ProjectGallery({ gallery, title }: Props) {
                   key={index}
                   src={gallery[index]}
                   alt={`${title} — ${index + 1}. kép`}
-                  className="w-full h-full object-contain"
+                  className="max-h-[85vh] w-auto max-w-full object-contain"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
@@ -197,14 +176,14 @@ export default function ProjectGallery({ gallery, title }: Props) {
                 />
               </AnimatePresence>
 
-              {/* Nav arrows in lightbox */}
+              {/* Nav arrows */}
               {gallery.length > 1 && (
                 <>
                   <button
                     type="button"
                     onClick={prev}
                     aria-label="Előző kép"
-                    className="absolute left-4 top-1/2 -translate-y-1/2 h-12 w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
+                    className="absolute left-3 md:-left-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
                   >
                     ←
                   </button>
@@ -212,37 +191,38 @@ export default function ProjectGallery({ gallery, title }: Props) {
                     type="button"
                     onClick={next}
                     aria-label="Következő kép"
-                    className="absolute right-4 top-1/2 -translate-y-1/2 h-12 w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
+                    className="absolute right-3 md:-right-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
                   >
                     →
                   </button>
                 </>
               )}
-
-              {/* Counter */}
-              <span className="absolute bottom-4 left-1/2 -translate-x-1/2 font-mono text-[11px] text-paper/60 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/10">
-                {String(index + 1).padStart(2, "0")}
-                <span className="text-paper/30 mx-1">/</span>
-                {String(gallery.length).padStart(2, "0")}
-              </span>
             </div>
 
-            {/* Thumbnails in lightbox */}
+            {/* Thumbnails */}
             {gallery.length > 1 && (
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+              <div
+                className="hidden sm:flex absolute bottom-5 left-1/2 -translate-x-1/2 gap-2"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {gallery.map((src, i) => (
                   <button
                     key={src}
                     type="button"
-                    onClick={(e) => { e.stopPropagation(); setIndex(i); }}
+                    onClick={() => setIndex(i)}
                     aria-label={`${i + 1}. kép`}
-                    className={`relative w-16 aspect-video overflow-hidden border transition-all duration-300 ${
+                    aria-pressed={i === index}
+                    className={`relative w-14 md:w-16 aspect-[2/3] overflow-hidden border transition-all duration-300 ${
                       i === index
                         ? "border-safelight opacity-100"
                         : "border-paper/15 opacity-40 hover:opacity-70"
                     }`}
                   >
-                    <img src={src} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                    <img
+                      src={src}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
