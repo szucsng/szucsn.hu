@@ -89,10 +89,13 @@ export default function Nav() {
             aria-label={`${siteConfig.name} — főoldal`}
             className="relative z-10 group flex items-center gap-2"
           >
-            <span className="relative flex h-5 w-5 items-center justify-center border border-paper/25 transition-colors duration-300 group-hover:border-safelight/60">
-              <span className="absolute inset-[3px] border border-safelight/50 transition-transform duration-500 group-hover:rotate-45" />
-              <span className="h-0.5 w-0.5 bg-safelight" />
-            </span>
+            <img
+              src="/images/logo-mark.png"
+              alt=""
+              width={320}
+              height={213}
+              className="h-5 w-auto transition-transform duration-500 group-hover:scale-105"
+            />
             <span className="font-mono text-[10px] tracking-widest2 uppercase text-paper">
               {siteConfig.name.split(" ")[0]}
             </span>
