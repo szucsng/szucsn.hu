@@ -65,7 +65,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   );
 
   const info = (
-    <div className="p-5 border-t border-paper/10">
+    <div className="p-5 border-t border-paper/10 flex-1 flex flex-col">
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-display text-xl text-paper group-hover:text-safelight transition-colors duration-300">
           {frame.title}
@@ -78,7 +78,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
         {frame.description}
       </p>
 
-      <dl className="mt-4 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] uppercase tracking-wide text-grain/70 border-t border-paper/10 pt-3">
+      <dl className="mt-auto pt-3 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] uppercase tracking-wide text-grain/70 border-t border-paper/10">
         {displayMeta.map((m) => (
           <div key={m.label} className="flex gap-1.5">
             <dt className="text-safelight/70">{m.label}</dt>
@@ -92,17 +92,17 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   /* ── Gallery card ──────────────────────────────────────── */
   if (hasGallery) {
     return (
-      <a href={`/munkak/${frame.slug}`} className="group block">
+      <a href={`/munkak/${frame.slug}`} className="group block h-full">
         <div
           ref={cardRef}
-          className="card-tilt border border-paper/10 hover:border-safelight/50 transition-[border-color] duration-400"
+          className="card-tilt border border-paper/10 hover:border-safelight/50 transition-[border-color] duration-400 flex h-full flex-col"
           style={{ transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={handleMouseLeave}
         >
           {/* Image area */}
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-void-light">
+          <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-void-light">
             {gallery.map((src, i) => (
               <img
                 key={src}
@@ -181,37 +181,6 @@ export default function FrameCard({ frame }: { frame: Frame }) {
             )}
           </div>
 
-          {/* Thumbnail strip */}
-          {gallery.length > 1 && (
-            <div className="flex gap-1 p-1.5 border-t border-paper/10 bg-void-light/50">
-              {gallery.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIndex(i);
-                  }}
-                  aria-label={`${frame.title} — ${i + 1}. kép`}
-                  aria-pressed={i === index}
-                  className={`relative flex-1 aspect-video overflow-hidden transition-all duration-300 ${
-                    i === index
-                      ? "ring-1 ring-safelight ring-offset-1 ring-offset-void opacity-100"
-                      : "opacity-30 hover:opacity-60"
-                  }`}
-                >
-                  <img
-                    src={src}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-
           {info}
         </div>
       </a>
@@ -223,14 +192,14 @@ export default function FrameCard({ frame }: { frame: Frame }) {
     <>
       <div
         ref={cardRef}
-        className="card-tilt border border-paper/10 hover:border-safelight/50 transition-[border-color] duration-400 overflow-hidden"
+        className="card-tilt border border-paper/10 hover:border-safelight/50 transition-[border-color] duration-400 overflow-hidden flex h-full flex-col"
         style={{ transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={handleMouseLeave}
       >
         <div
-          className="relative aspect-[4/3] w-full overflow-hidden"
+          className="relative aspect-[4/3] w-full shrink-0 overflow-hidden"
           style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
         >
           <div className="grain-overlay" aria-hidden="true" />
@@ -270,7 +239,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   );
 
   return (
-    <a href={`/munkak/${frame.slug}`} className="group block">
+    <a href={`/munkak/${frame.slug}`} className="group block h-full">
       {cardContent}
     </a>
   );

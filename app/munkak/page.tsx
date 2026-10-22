@@ -97,7 +97,7 @@ export default function WorksPage() {
             <LayoutGroup>
               <motion.div
                 layout
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-paper/10"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-paper/10"
               >
                 <AnimatePresence mode="popLayout">
                   {filtered.map((frame, i) => (

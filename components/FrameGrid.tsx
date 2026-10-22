@@ -27,7 +27,7 @@ export default function FrameGrid() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-paper/10">
           {frames.slice(0, 3).map((frame, i) => (
             <div key={frame.id} className="bg-void">
-              <Reveal delay={i * 0.08} y={24}>
+              <Reveal delay={i * 0.08} y={24} className="h-full">
                 <FrameCard frame={frame} />
               </Reveal>
             </div>
