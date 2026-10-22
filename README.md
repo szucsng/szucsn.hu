@@ -30,6 +30,76 @@ Ezután nyisd meg: http://localhost:5070
      <Image src="/images/projekt-01.jpg" alt="..." fill className="object-cover" />
      ```
 
+## Sablonok — `lib/frames.ts`
+
+Új munka hozzáadásához másold be az alábbi két sablon egyikét a `frames` tömbbe.
+
+### Kód projekt
+
+```ts
+{
+  id: "05",
+  slug: "projekt-neve",
+  kind: "code",
+  title: "Projekt neve",
+  year: "2026",
+  description:
+    "Rövid, egy-két mondatos leírás — ez jelenik meg a kártyán.",
+  longDescription:
+    "Hosszabb leírás a projektoldalhoz.\n\nA második bekezdést egy üres sor választja el.",
+  meta: [
+    { label: "LANG", value: "TypeScript · React" },
+    { label: "STACK", value: "Next.js" },
+    { label: "SZEREP", value: "Fejlesztő" },
+  ],
+  href: "https://pelda.hu", // opcionális — ha van, megjelenik az "Oldal megtekintése" gomb
+  swatch: ["#2a0e1a", "#e2559a"],
+  logo: "/images/logos/projekt-neve.png", // opcionális, átlátszó hátterű PNG
+  role: "Fejlesztő & designer",
+  technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+},
+```
+
+### Fotósorozat
+
+```ts
+{
+  id: "06",
+  slug: "fotosorozat-neve",
+  kind: "photo",
+  title: "Fotósorozat neve",
+  year: "2026",
+  description:
+    "Rövid leírás a sorozatról — ez jelenik meg a kártyán.",
+  longDescription:
+    "Hosszabb leírás a sorozatról.\n\nA második bekezdés.",
+  meta: [
+    { label: "f/", value: "2.8" },
+    { label: "ISO", value: "400" },
+  ],
+  href: "#",
+  swatch: ["#1c1a17", "#B8492E"],
+  gallery: [
+    "/images/galleries/foto-01.jpg",
+    "/images/galleries/foto-02.jpg",
+    "/images/galleries/foto-03.jpg",
+  ],
+  role: "Fotós & utómunka",
+  technologies: ["Canon EOS 6D", "24-105mm", "Lightroom"],
+},
+```
+
+Fontosabb mezők:
+
+- `kind: "code"` — a kártya mindig a projekt leírására visz. Ha van `href`, az élő oldal a leírás oldalán az **Oldal megtekintése** gombbal nyílik meg.
+- `kind: "photo"` — a `gallery` képei albumként jelennek meg a projektoldalon, vágás nélkül.
+- `slug` — ebből lesz a URL: `/munkak/plczk-art`.
+- `swatch` — a borító gradiens két színe.
+- `logo` — opcionális, érdemes átlátszó hátterű PNG-t használni.
+- `gallery` — a képek a `public/images/galleries/` mappából.
+- `longDescription` — a bekezdéseket `\n\n` választja el.
+- `id` — csak a kártyán megjelenő sorszám, legyen egyedi.
+
 ## Domain hozzákötés — mivel már van domained
 
 Két egyszerű út van, attól függően, hogyan akarod üzemeltetni:
