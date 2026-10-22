@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/site";
 
@@ -18,6 +18,12 @@ export default function Nav() {
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.3,
+  });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -166,6 +172,17 @@ export default function Nav() {
               />
             </button>
           </div>
+
+          <motion.div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-5 bottom-0 h-[2px] origin-left rounded-full md:inset-x-6"
+            style={{
+              scaleX: progress,
+              backgroundColor: "var(--project-accent, #B8492E)",
+              boxShadow:
+                "0 0 10px var(--project-accent-soft, rgba(184,73,46,0.5))",
+            }}
+          />
         </nav>
       </header>
 

@@ -5,7 +5,6 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Contact from "@/components/Contact";
 import Reveal from "@/components/Reveal";
-import ScrollProgress from "@/components/ScrollProgress";
 import ProjectGallery from "@/components/ProjectGallery";
 import LogoStage from "@/components/LogoStage";
 import { frames, getFrameBySlug } from "@/lib/frames";
@@ -61,6 +60,8 @@ export default async function ProjectPage({ params }: Props) {
   const accent = to;
   const accentSoft = `${to}55`;
   const accentFaint = `${to}1a`;
+  const pageBase = mixHex(to, "#14120F", 0.2);
+  const pageDeep = mixHex(from, "#14120F", 0.38);
 
   return (
     <div
@@ -75,34 +76,44 @@ export default async function ProjectPage({ params }: Props) {
       {/* ── Ambient brand background ─────────────────────────── */}
       <div
         aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(180deg, ${pageBase} 0%, ${pageDeep} 20%, #14120F 58%, #0f0d0b 100%)`,
+          }}
+        />
+        <div className="grain-overlay" />
+      </div>
+
+      <div
+        aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
       >
         <div
-          className="absolute -left-[28%] -top-[28%] h-[85vh] w-[85vw] rounded-full opacity-50 blur-[150px]"
+          className="absolute -left-[28%] -top-[28%] h-[85vh] w-[85vw] rounded-full opacity-30 blur-[150px]"
           style={{
             background: `radial-gradient(circle, ${to}66 0%, transparent 68%)`,
           }}
         />
         <div
-          className="absolute -right-[28%] top-[8%] h-[75vh] w-[75vw] rounded-full opacity-40 blur-[150px]"
+          className="absolute -right-[28%] top-[8%] h-[75vh] w-[75vw] rounded-full opacity-25 blur-[150px]"
           style={{
             background: `radial-gradient(circle, ${from}99 0%, transparent 68%)`,
           }}
         />
         <div
-          className="absolute bottom-[-22%] left-[12%] h-[60vh] w-[70vw] rounded-full opacity-30 blur-[170px]"
+          className="absolute bottom-[-22%] left-[12%] h-[60vh] w-[70vw] rounded-full opacity-20 blur-[170px]"
           style={{
             background: `radial-gradient(circle, ${accent}44 0%, transparent 70%)`,
           }}
         />
-        <div className="absolute inset-0 bg-void/55" />
-        <div className="grain-overlay" />
       </div>
 
       <div className="relative z-10">
         <Nav />
-        <ScrollProgress accent={accent}>
-          <main>
+        <main>
             <article>
               {/* ── Full-bleed cover ──────────────────────────── */}
               <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
@@ -134,13 +145,24 @@ export default async function ProjectPage({ params }: Props) {
                   />
                 )}
 
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-void via-void/50 to-transparent" />
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%]"
+                  style={{
+                    background: `linear-gradient(to top, ${pageBase} 0%, ${pageBase}dd 20%, ${pageBase}66 52%, transparent 100%)`,
+                  }}
+                />
               </section>
 
               {/* ── Glass title card ──────────────────────────── */}
               <section className="relative z-10 mx-auto -mt-28 max-w-6xl px-4 md:-mt-36 md:px-6">
                 <div className="glass relative overflow-hidden rounded-[2rem] p-6 md:p-10 lg:p-12">
                   <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background: `linear-gradient(140deg, ${from}66 0%, transparent 40%, transparent 65%, ${to}1a 100%)`,
+                    }}
+                  />
                   <div
                     className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-40 blur-3xl"
                     style={{
@@ -421,10 +443,13 @@ export default async function ProjectPage({ params }: Props) {
                 </section>
               )}
 
-              <Contact />
+              <section className="mx-auto mt-6 max-w-6xl px-4 pb-10 md:px-6">
+                <div className="glass overflow-hidden rounded-[2rem]">
+                  <Contact embedded />
+                </div>
+              </section>
             </article>
           </main>
-        </ScrollProgress>
         <Footer />
       </div>
     </div>
@@ -440,4 +465,23 @@ function FactRow({ label, value }: { label: string; value: string }) {
       <dd className="text-right text-sm text-paper">{value}</dd>
     </div>
   );
+}
+
+function mixHex(hex: string, base: string, ratio: number) {
+  const toRgb = (value: string) => {
+    const clean = value.replace("#", "");
+    return [
+      parseInt(clean.slice(0, 2), 16),
+      parseInt(clean.slice(2, 4), 16),
+      parseInt(clean.slice(4, 6), 16),
+    ];
+  };
+
+  const [r1, g1, b1] = toRgb(hex);
+  const [r2, g2, b2] = toRgb(base);
+  const mix = (a: number, b: number) => Math.round(a * ratio + b * (1 - ratio));
+
+  return `#${[mix(r1, r2), mix(g1, g2), mix(b1, b2)]
+    .map((n) => n.toString(16).padStart(2, "0"))
+    .join("")}`;
 }
