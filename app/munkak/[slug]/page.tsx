@@ -92,9 +92,10 @@ export default async function ProjectPage({ params }: Props) {
                       href={frame.href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`${frame.title} oldalának megtekintése`}
                       className="group inline-flex items-center gap-3 border border-paper/20 px-7 py-3.5 font-mono text-xs tracking-widest2 uppercase text-paper hover:border-safelight hover:text-safelight transition-all duration-400 shrink-0"
                     >
-                      Megnyitás
+                      Oldal megtekintése
                       <span className="text-safelight group-hover:translate-x-1 transition-transform duration-300">
                         →
                       </span>

@@ -259,7 +259,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
           {/* View project hint */}
           <div className="absolute inset-x-0 bottom-0 p-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-400 translate-y-2 group-hover:translate-y-0">
             <span className="font-mono text-[10px] tracking-widest2 uppercase text-paper/80 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/15">
-              Megtekintés →
+              Részletek →
             </span>
           </div>
         </div>
@@ -268,14 +268,6 @@ export default function FrameCard({ frame }: { frame: Frame }) {
       </div>
     </>
   );
-
-  if (frame.href && frame.href !== "#") {
-    return (
-      <a href={frame.href} className="group block">
-        {cardContent}
-      </a>
-    );
-  }
 
   return (
     <a href={`/munkak/${frame.slug}`} className="group block">
