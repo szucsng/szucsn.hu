@@ -193,7 +193,7 @@ export default function Nav() {
         {open && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 bg-void/95 md:hidden"
+            className="fixed inset-0 z-40 bg-void md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -227,7 +227,19 @@ export default function Nav() {
                         className="ml-auto transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
                         style={{ color: "var(--project-accent, #B8492E)" }}
                       >
-                        ↗
+                        <svg
+                          className="h-4 w-4"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M7 17 17 7" />
+                          <path d="M9 7h8v8" />
+                        </svg>
                       </span>
                     </Link>
                   </motion.div>

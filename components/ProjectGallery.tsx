@@ -146,7 +146,7 @@ export default function ProjectGallery({
           <AnimatePresence>
             {lightbox && (
               <motion.div
-                className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex flex-col items-center justify-center gap-3 p-4 md:p-8"
+                className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex flex-col items-center justify-center gap-3 p-4 pt-20 md:p-8"
                 role="dialog"
                 aria-modal="true"
                 aria-label={`${title} album`}
@@ -157,7 +157,7 @@ export default function ProjectGallery({
                 onClick={() => setLightbox(false)}
               >
                 {/* Counter */}
-                <span className="absolute top-5 left-5 font-mono text-[11px] tracking-widest2 uppercase text-paper/70 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/10">
+                <span className="absolute top-5 left-5 z-20 font-mono text-[11px] tracking-widest2 uppercase text-paper/70 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/10">
                   {String(index + 1).padStart(2, "0")}
                   <span className="text-paper/30 mx-1">/</span>
                   {String(gallery.length).padStart(2, "0")}
@@ -168,7 +168,7 @@ export default function ProjectGallery({
                   type="button"
                   onClick={() => setLightbox(false)}
                   aria-label="Bezárás"
-                  className="absolute top-4 right-4 h-10 w-10 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
+                  className="absolute top-4 right-4 z-20 h-10 w-10 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
                 >
                   ×
                 </button>
