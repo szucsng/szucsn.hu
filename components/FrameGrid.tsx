@@ -5,8 +5,8 @@ import Reveal from "./Reveal";
 
 export default function FrameGrid() {
   return (
-    <section id="munkak" className="border-t border-paper/10">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-36">
+    <section id="munkak" className="border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-14 py-20 md:py-28">
         <Reveal>
           <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
             <div>
@@ -24,9 +24,9 @@ export default function FrameGrid() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-paper/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {frames.slice(0, 3).map((frame, i) => (
-            <div key={frame.id} className="bg-void">
+            <div key={frame.id}>
               <Reveal delay={i * 0.08} y={24} className="h-full">
                 <FrameCard frame={frame} />
               </Reveal>

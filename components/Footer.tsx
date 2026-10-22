@@ -3,8 +3,8 @@ import { siteConfig } from "@/lib/site";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-paper/10">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 py-10">
+    <footer className="relative border-t border-white/10 bg-void/25 backdrop-blur-xl">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-14 py-10">
         <div className="flex flex-wrap items-center justify-between gap-6">
           {/* Left: copyright */}
           <div>

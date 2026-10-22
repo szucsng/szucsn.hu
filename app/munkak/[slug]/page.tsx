@@ -81,7 +81,7 @@ export default async function ProjectPage({ params }: Props) {
         <div
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(180deg, ${pageBase} 0%, ${pageDeep} 20%, #14120F 58%, #0f0d0b 100%)`,
+            background: `linear-gradient(180deg, ${pageBase} 0px, ${pageBase} max(100svh, 640px), ${pageDeep} max(150svh, 960px), #14120F max(230svh, 1500px), #0f0d0b 100%)`,
           }}
         />
         <div className="grain-overlay" />
@@ -146,15 +146,15 @@ export default async function ProjectPage({ params }: Props) {
                 )}
 
                 <div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%]"
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%]"
                   style={{
-                    background: `linear-gradient(to top, ${pageBase} 0%, ${pageBase}dd 20%, ${pageBase}66 52%, transparent 100%)`,
+                    background: `linear-gradient(to top, ${pageBase} 0%, ${pageBase}e6 16%, ${pageBase}99 45%, ${pageBase}33 76%, transparent 100%)`,
                   }}
                 />
               </section>
 
               {/* ── Glass title card ──────────────────────────── */}
-              <section className="relative z-10 mx-auto -mt-28 max-w-6xl px-4 md:-mt-36 md:px-6">
+              <section className="relative z-10 mx-auto -mt-28 max-w-7xl px-6 md:-mt-36 md:px-10 lg:px-14">
                 <div className="glass relative overflow-hidden rounded-[2rem] p-6 md:p-10 lg:p-12">
                   <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                   <div
@@ -244,7 +244,7 @@ export default async function ProjectPage({ params }: Props) {
 
               {/* ── Album (photo) ─────────────────────────────── */}
               {hasGallery && (
-                <section className="mx-auto mt-6 max-w-6xl px-4 md:px-6">
+                <section className="mx-auto mt-6 max-w-7xl px-6 md:px-10 lg:px-14">
                   <div className="glass rounded-[2rem] p-4 md:p-6">
                     <ProjectGallery
                       gallery={frame.gallery!}
@@ -256,7 +256,7 @@ export default async function ProjectPage({ params }: Props) {
               )}
 
               {/* ── Story + sidebar ───────────────────────────── */}
-              <section className="mx-auto mt-6 max-w-6xl px-4 md:px-6">
+              <section className="mx-auto mt-6 max-w-7xl px-6 md:px-10 lg:px-14">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
                   <div className="md:col-span-8">
                     <div className="glass rounded-[2rem] p-6 md:p-10">
@@ -381,7 +381,7 @@ export default async function ProjectPage({ params }: Props) {
 
               {/* ── Next project ──────────────────────────────── */}
               {featuredFrame && (
-                <section className="mx-auto mt-6 max-w-6xl px-4 pb-10 md:px-6">
+                <section className="mx-auto mt-6 max-w-7xl px-6 pb-10 md:px-10 lg:px-14">
                   <div className="glass relative overflow-hidden rounded-[2rem] px-6 py-14 text-center md:py-20">
                     <div
                       className="pointer-events-none absolute left-1/2 top-0 h-64 w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
@@ -443,11 +443,7 @@ export default async function ProjectPage({ params }: Props) {
                 </section>
               )}
 
-              <section className="mx-auto mt-6 max-w-6xl px-4 pb-10 md:px-6">
-                <div className="glass overflow-hidden rounded-[2rem]">
-                  <Contact embedded />
-                </div>
-              </section>
+              <Contact />
             </article>
           </main>
         <Footer />

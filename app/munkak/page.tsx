@@ -45,31 +45,40 @@ export default function WorksPage() {
       <Nav />
       <main>
         {/* ── Hero ────────────────────────────────────────────── */}
-        <section id="top" className="relative pt-16 overflow-hidden">
+        <section
+          id="top"
+          className="relative overflow-hidden border-b border-white/10 bg-white/[0.015] pt-16 backdrop-blur-xl"
+        >
           <div className="sprockets mt-6" aria-hidden="true" />
 
-          <div className="max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-28">
+          <div className="relative max-w-7xl mx-auto px-6 md:px-10 lg:px-14 py-20 md:py-28">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-safelight/10 blur-3xl"
+            />
             <Reveal>
-              <p className="font-mono text-[11px] tracking-widest3 uppercase text-safelight mb-6">
-                Archívum — Kontaktmásolat
-              </p>
+              <div className="relative">
+                <p className="font-mono text-[11px] tracking-widest3 uppercase text-safelight mb-6">
+                  Archívum — Kontaktmásolat
+                </p>
 
-              <h1 className="font-display italic text-[16vw] leading-[0.92] md:text-display-xl text-paper">
-                Munkáim
-              </h1>
+                <h1 className="font-display italic text-display-xl leading-[0.92] text-paper">
+                  Munkáim
+                </h1>
 
-              <div className="mt-8 mb-12">
-                <div className="h-px bg-safelight/40 w-24" />
-              </div>
+                <div className="mt-8 mb-10">
+                  <div className="h-px bg-safelight/40 w-24" />
+                </div>
 
-              <p className="max-w-xl text-lg md:text-xl text-grain leading-relaxed">
-                Minden tétel egy „frame” — kód vagy fénykép, ugyanazokkal a
-                kérdésekkel megközelítve: mit hagyok a keretben, és mit vágok
-                le.
-              </p>
+                <p className="max-w-2xl text-lg md:text-xl text-grain leading-relaxed">
+                  Minden tétel egy „frame” — kód vagy fénykép, ugyanazokkal a
+                  kérdésekkel megközelítve: mit hagyok a keretben, és mit vágok
+                  le.
+                </p>
 
-              <div className="mt-14">
-                <AnimatedStats stats={stats} />
+                <div className="mt-12">
+                  <AnimatedStats stats={stats} />
+                </div>
               </div>
             </Reveal>
           </div>
@@ -78,10 +87,10 @@ export default function WorksPage() {
         </section>
 
         {/* ── Filter + Grid ──────────────────────────────────── */}
-        <section className="border-t border-paper/10">
-          <div className="max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-36">
+        <section className="border-t border-white/10">
+          <div className="max-w-7xl mx-auto px-6 md:px-10 lg:px-14 py-20 md:py-28">
             <Reveal>
-              <div className="flex items-end justify-between mb-10 flex-wrap gap-6">
+              <div className="mb-8 flex flex-wrap items-end justify-between gap-6 border-b border-white/10 pb-6">
                 <div>
                   <p className="font-mono text-xs tracking-widest3 uppercase text-safelight mb-3">
                     Kontaktmásolat
@@ -95,16 +104,13 @@ export default function WorksPage() {
             </Reveal>
 
             <LayoutGroup>
-              <motion.div
-                layout
-                className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-paper/10"
-              >
+              <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                 <AnimatePresence mode="popLayout">
                   {filtered.map((frame, i) => (
                     <motion.div
                       key={frame.id}
                       layout
-                      className="bg-void"
+                      className="min-w-0"
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
@@ -137,7 +143,7 @@ export default function WorksPage() {
             </AnimatePresence>
 
             <Reveal delay={0.1}>
-              <p className="mt-14 font-mono text-[11px] tracking-widest3 uppercase text-grain/50 text-center">
+              <p className="mt-10 font-mono text-[11px] tracking-widest3 uppercase text-grain/50 text-center">
                 {filtered.length} tétel
                 {filter !== "all" && ` / ${frames.length} összesen`}
                 {" · "}{season}

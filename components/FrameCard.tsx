@@ -65,7 +65,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   );
 
   const info = (
-    <div className="p-5 border-t border-paper/10 flex-1 flex flex-col">
+    <div className="p-5 border-t border-white/10 bg-void/25 backdrop-blur-xl flex-1 flex flex-col">
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-display text-xl text-paper group-hover:text-safelight transition-colors duration-300">
           {frame.title}
@@ -78,7 +78,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
         {frame.description}
       </p>
 
-      <dl className="mt-auto pt-3 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] uppercase tracking-wide text-grain/70 border-t border-paper/10">
+      <dl className="mt-auto pt-3 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] uppercase tracking-wide text-grain/70 border-t border-white/10">
         {displayMeta.map((m) => (
           <div key={m.label} className="flex gap-1.5">
             <dt className="text-safelight/70">{m.label}</dt>
@@ -95,7 +95,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
       <a href={`/munkak/${frame.slug}`} className="group block h-full">
         <div
           ref={cardRef}
-          className="card-tilt border border-paper/10 hover:border-safelight/50 transition-[border-color] duration-400 flex h-full flex-col"
+          className="card-tilt overflow-hidden rounded-[1.5rem] border border-white/10 bg-void/25 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl hover:border-safelight/50 transition-[border-color] duration-400 flex h-full flex-col"
           style={{ transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setHovered(true)}
@@ -192,7 +192,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
     <>
       <div
         ref={cardRef}
-        className="card-tilt border border-paper/10 hover:border-safelight/50 transition-[border-color] duration-400 overflow-hidden flex h-full flex-col"
+        className="card-tilt overflow-hidden rounded-[1.5rem] border border-white/10 bg-void/25 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl hover:border-safelight/50 transition-[border-color] duration-400 flex h-full flex-col"
         style={{ transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setHovered(true)}

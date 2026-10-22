@@ -45,11 +45,11 @@ function AnimatedNumber({ target, suffix }: { target: number; suffix?: string })
 
 export default function AnimatedStats({ stats }: Props) {
   return (
-    <dl className="inline-grid grid-cols-2 sm:grid-cols-4 gap-px bg-paper/10 border border-paper/10 font-mono text-[11px]">
+    <dl className="inline-grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 font-mono text-[11px] backdrop-blur-xl">
       {stats.map((s, i) => (
         <motion.div
           key={s.key}
-          className="bg-void px-6 py-5"
+          className="bg-void/25 px-6 py-5"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{

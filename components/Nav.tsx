@@ -55,7 +55,7 @@ export default function Nav() {
     <>
       <header className="fixed inset-x-3 top-3 z-50 md:inset-x-6 md:top-4">
         <nav
-          className={`glass relative mx-auto flex h-12 max-w-5xl items-center justify-between rounded-full px-4 transition-shadow duration-500 md:h-14 md:px-6 ${
+          className={`glass relative mx-auto flex h-12 max-w-6xl items-center justify-between rounded-full px-4 transition-shadow duration-500 md:h-14 md:px-6 ${
             scrolled ? "shadow-[0_24px_80px_rgba(0,0,0,0.55)]" : ""
           }`}
         >

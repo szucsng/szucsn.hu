@@ -18,20 +18,20 @@ type Props = {
 
 export default function FilterBar({ active, onChange, counts }: Props) {
   return (
-    <div className="flex items-center gap-1 p-1 border border-paper/10 bg-void-light/50">
+    <div className="glass-soft flex items-center gap-1 rounded-full p-1">
       {filters.map((f) => (
         <button
           key={f.key}
           type="button"
           onClick={() => onChange(f.key)}
-          className={`relative px-5 py-2 font-mono text-[11px] tracking-widest2 uppercase transition-colors duration-300 ${
+          className={`relative px-4 py-2 font-mono text-[11px] tracking-widest2 uppercase transition-colors duration-300 ${
             active === f.key ? "text-paper" : "text-grain hover:text-paper/70"
           }`}
         >
           {active === f.key && (
             <motion.span
               layoutId="filter-pill"
-              className="absolute inset-0 bg-safelight/15 border border-safelight/30"
+              className="absolute inset-0 rounded-full bg-safelight/15 border border-safelight/30"
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
             />
           )}
