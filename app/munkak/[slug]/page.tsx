@@ -89,7 +89,7 @@ export default async function ProjectPage({ params }: Props) {
 
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+        className="pointer-events-none fixed inset-0 z-0 hidden overflow-hidden md:block"
       >
         <div
           className="absolute -left-[28%] -top-[28%] h-[85vh] w-[85vw] rounded-full opacity-30 blur-[150px]"

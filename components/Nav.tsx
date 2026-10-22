@@ -193,7 +193,7 @@ export default function Nav() {
         {open && (
           <motion.div
             id="mobile-menu"
-            className="fixed inset-0 z-40 bg-void/90 backdrop-blur-2xl md:hidden"
+            className="fixed inset-0 z-40 bg-void/95 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

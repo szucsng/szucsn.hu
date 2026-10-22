@@ -81,7 +81,7 @@ export default function LogoStage({
       {/* Ambient light — két lassan mozgó glow */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -left-[22%] top-[-45%] h-[125%] w-[70%] rounded-full blur-3xl"
+        className="pointer-events-none absolute -left-[22%] top-[-45%] hidden h-[125%] w-[70%] rounded-full blur-3xl md:block"
         style={{ background: `radial-gradient(circle, ${to}88 0%, transparent 68%)` }}
         animate={
           calm || !inView
@@ -96,7 +96,7 @@ export default function LogoStage({
       />
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute -right-[18%] bottom-[-55%] h-[130%] w-[60%] rounded-full blur-3xl"
+        className="pointer-events-none absolute -right-[18%] bottom-[-55%] hidden h-[130%] w-[60%] rounded-full blur-3xl md:block"
         style={{ background: `radial-gradient(circle, ${from}cc 0%, transparent 70%)` }}
         animate={
           calm || !inView
@@ -136,7 +136,7 @@ export default function LogoStage({
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <motion.div
           aria-hidden
-          className="h-[42%] w-[42%] rounded-full blur-[90px]"
+          className="hidden h-[42%] w-[42%] rounded-full blur-[90px] md:block"
           style={{
             background: `radial-gradient(circle, ${to}88 0%, transparent 70%)`,
           }}

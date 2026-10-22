@@ -29,6 +29,19 @@ body {
   .logo-reveal {
     filter: none !important;
   }
+
+  /* Large backdrop-filter panels force iOS to re-rasterise everything behind
+     them; a solid glass tint looks the same on a phone and cannot crash the tab. */
+  .glass,
+  .glass-soft {
+    background: rgba(18, 16, 14, 0.86);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .grain-overlay {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
