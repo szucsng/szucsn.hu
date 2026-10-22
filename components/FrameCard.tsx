@@ -13,6 +13,8 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
+  const touchStart = useRef<number | null>(null);
+  const swiped = useRef(false);
 
   const exif = useExif(hasGallery ? gallery[index] : undefined);
 
@@ -28,6 +30,30 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   const handleMouseLeave = useCallback(() => {
     setTilt({ x: 0, y: 0 });
     setHovered(false);
+  }, []);
+
+  /* Swipe through the gallery on touch devices */
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+    swiped.current = false;
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (touchStart.current === null) return;
+      const diff = touchStart.current - e.changedTouches[0].clientX;
+      touchStart.current = null;
+      if (Math.abs(diff) < 40) return;
+      swiped.current = true;
+      setIndex((i) => (i + (diff > 0 ? 1 : -1) + gallery.length) % gallery.length);
+    },
+    [gallery.length],
+  );
+
+  const handleCardClick = useCallback((e: React.MouseEvent) => {
+    if (!swiped.current) return;
+    e.preventDefault();
+    swiped.current = false;
   }, []);
 
   const displayMeta = useMemo(() => {
@@ -92,7 +118,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   /* ── Gallery card ──────────────────────────────────────── */
   if (hasGallery) {
     return (
-      <a href={`/munkak/${frame.slug}`} className="group block h-full">
+      <a href={`/munkak/${frame.slug}`} className="group block h-full" onClick={handleCardClick}>
         <div
           ref={cardRef}
           className="card-tilt overflow-hidden rounded-[1.5rem] border border-white/10 bg-void/25 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl hover:border-safelight/50 transition-[border-color] duration-400 flex h-full flex-col"
@@ -100,6 +126,8 @@ export default function FrameCard({ frame }: { frame: Frame }) {
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Image area */}
           <div className="relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-void-light">
@@ -133,7 +161,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
                     setIndex((i) => (i - 1 + gallery.length) % gallery.length);
                   }}
                   aria-label="Előző kép"
-                  className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 inline-flex items-center justify-center border border-paper/20 bg-void/50 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-9 sm:w-9 inline-flex items-center justify-center border border-paper/20 bg-void/50 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300 opacity-100 translate-x-0 sm:opacity-0 sm:translate-x-2 sm:group-hover:opacity-100 sm:group-hover:translate-x-0"
                 >
                   ←
                 </button>
@@ -145,20 +173,20 @@ export default function FrameCard({ frame }: { frame: Frame }) {
                     setIndex((i) => (i + 1) % gallery.length);
                   }}
                   aria-label="Következő kép"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 inline-flex items-center justify-center border border-paper/20 bg-void/50 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 sm:h-9 sm:w-9 inline-flex items-center justify-center border border-paper/20 bg-void/50 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300 opacity-100 translate-x-0 sm:opacity-0 sm:-translate-x-2 sm:group-hover:opacity-100 sm:group-hover:translate-x-0"
                 >
                   →
                 </button>
 
                 {/* Counter pill */}
-                <span className="absolute bottom-3 left-3 font-mono text-[11px] text-paper/80 bg-void/60 backdrop-blur-md px-2.5 py-1 border border-paper/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="absolute bottom-3 left-3 font-mono text-[11px] text-paper/80 bg-void/60 backdrop-blur-md px-2.5 py-1 border border-paper/10 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100">
                   {String(index + 1).padStart(2, "0")}
                   <span className="text-paper/30 mx-0.5">/</span>
                   {String(gallery.length).padStart(2, "0")}
                 </span>
 
                 {/* Progress dots */}
-                <div className="absolute bottom-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-3 right-3 flex gap-1.5 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100">
                   {gallery.map((_, i) => (
                     <button
                       key={i}

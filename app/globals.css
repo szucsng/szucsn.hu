@@ -4,6 +4,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Decorative blurs bleed past the viewport; clip on the root too, otherwise
+     mobile browsers widen the layout viewport and fixed UI drifts off-screen. */
+  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

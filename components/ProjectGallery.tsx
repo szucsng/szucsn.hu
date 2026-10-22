@@ -146,7 +146,7 @@ export default function ProjectGallery({
           <AnimatePresence>
             {lightbox && (
               <motion.div
-                className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8"
+                className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex flex-col items-center justify-center gap-3 p-4 md:p-8"
                 role="dialog"
                 aria-modal="true"
                 aria-label={`${title} album`}
@@ -179,7 +179,7 @@ export default function ProjectGallery({
 
                 {/* Image */}
                 <div
-                  className="relative flex max-h-[85vh] max-w-6xl items-center justify-center pr-0 sm:pr-24 md:pr-28"
+                  className="relative flex flex-1 min-h-0 max-h-[85vh] max-w-6xl items-center justify-center pr-0 sm:pr-24 md:pr-28"
                   onClick={(e) => e.stopPropagation()}
                   onTouchStart={onTouchStart}
                   onTouchEnd={onTouchEnd}
@@ -189,7 +189,7 @@ export default function ProjectGallery({
                       key={index}
                       src={gallery[index]}
                       alt={`${title} — ${index + 1}. kép`}
-                      className="max-h-[85vh] w-auto max-w-full object-contain"
+                      className="max-h-full w-auto max-w-full object-contain"
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
@@ -220,9 +220,12 @@ export default function ProjectGallery({
                   )}
                 </div>
 
-                {/* EXIF panel */}
+                {/* EXIF panel — in flow under the photo on mobile, floating on desktop */}
                 {activeExif && (
-                  <div className="absolute bottom-4 left-4 right-4 z-10 overflow-hidden rounded-2xl border border-white/10 bg-void/65 p-4 backdrop-blur-xl md:bottom-8 md:left-8 md:right-auto md:max-w-sm">
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-full shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-void/65 p-4 backdrop-blur-xl md:absolute md:bottom-8 md:left-8 md:right-auto md:w-auto md:max-w-sm"
+                  >
                     <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
                       <p
                         className="font-mono text-[9px] uppercase tracking-widest3"
@@ -271,7 +274,7 @@ export default function ProjectGallery({
                 {/* Thumbnail rail — jobb oldalon */}
                 {gallery.length > 1 && (
                   <div
-                    className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 flex-col gap-2 rounded-2xl border border-white/10 bg-void/55 p-2 backdrop-blur-xl sm:flex md:right-6"
+                    className="absolute right-4 top-1/2 z-10 hidden max-h-[calc(100svh-7rem)] -translate-y-1/2 flex-col gap-2 overflow-y-auto rounded-2xl border border-white/10 bg-void/55 p-2 backdrop-blur-xl [scrollbar-width:none] sm:flex md:right-6 [&::-webkit-scrollbar]:hidden"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <span className="px-1 pb-1 text-center font-mono text-[8px] uppercase tracking-widest2 text-grain/50">
@@ -284,7 +287,7 @@ export default function ProjectGallery({
                         onClick={() => setIndex(i)}
                         aria-label={`${i + 1}. kép`}
                         aria-pressed={i === index}
-                        className={`relative w-14 md:w-16 aspect-[2/3] overflow-hidden rounded-lg border transition-all duration-300 ${
+                        className={`relative w-14 md:w-16 shrink-0 aspect-square overflow-hidden rounded-lg border transition-all duration-300 ${
                           i === index
                             ? "border-[var(--project-accent)] opacity-100"
                             : "border-paper/15 opacity-40 hover:opacity-70"
