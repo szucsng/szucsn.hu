@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import Reveal from "./Reveal";
+import { useExif } from "@/hooks/use-exif";
 
 type Props = {
   gallery: string[];
@@ -17,7 +19,12 @@ export default function ProjectGallery({
 }: Props) {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const touchStart = useRef<number | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const open = useCallback((i: number) => {
     setIndex(i);
@@ -72,11 +79,13 @@ export default function ProjectGallery({
     [next, prev],
   );
 
+  const activeExif = useExif(gallery[index]);
+
   if (gallery.length === 0) return null;
 
   return (
     <>
-      <section className="max-w-6xl mx-auto px-6 md:px-10">
+      <section className="w-full">
         <Reveal>
           {/* Album header */}
           <div className="flex flex-wrap items-end justify-between gap-3 mb-5 border-b border-paper/10 pb-4">
@@ -120,6 +129,8 @@ export default function ProjectGallery({
                   #{String(i + 1).padStart(2, "0")}
                 </span>
 
+                <ExposureChip src={src} />
+
                 <span className="pointer-events-none absolute bottom-3 right-3 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/15 font-mono text-[10px] tracking-widest2 uppercase text-paper/80 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-400">
                   Nagyítás ↗
                 </span>
@@ -130,114 +141,201 @@ export default function ProjectGallery({
       </section>
 
       {/* ── Lightbox ──────────────────────────────────────────── */}
-      <AnimatePresence>
-        {lightbox && (
-          <motion.div
-            className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8"
-            role="dialog"
-            aria-modal="true"
-            aria-label={`${title} album`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            onClick={() => setLightbox(false)}
-          >
-            {/* Counter */}
-            <span className="absolute top-5 left-5 font-mono text-[11px] tracking-widest2 uppercase text-paper/70 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/10">
-              {String(index + 1).padStart(2, "0")}
-              <span className="text-paper/30 mx-1">/</span>
-              {String(gallery.length).padStart(2, "0")}
-            </span>
-
-            {/* Close */}
-            <button
-              type="button"
-              onClick={() => setLightbox(false)}
-              aria-label="Bezárás"
-              className="absolute top-4 right-4 h-10 w-10 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
-            >
-              ×
-            </button>
-
-            <span className="hidden md:block absolute top-6 right-20 font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
-              ESC a bezáráshoz
-            </span>
-
-            {/* Image */}
-            <div
-              className="relative flex max-h-[85vh] max-w-6xl items-center justify-center"
-              onClick={(e) => e.stopPropagation()}
-              onTouchStart={onTouchStart}
-              onTouchEnd={onTouchEnd}
-            >
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={index}
-                  src={gallery[index]}
-                  alt={`${title} — ${index + 1}. kép`}
-                  className="max-h-[85vh] w-auto max-w-full object-contain"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
-                />
-              </AnimatePresence>
-
-              {/* Nav arrows */}
-              {gallery.length > 1 && (
-                <>
-                  <button
-                    type="button"
-                    onClick={prev}
-                    aria-label="Előző kép"
-                    className="absolute left-3 md:-left-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
-                  >
-                    ←
-                  </button>
-                  <button
-                    type="button"
-                    onClick={next}
-                    aria-label="Következő kép"
-                    className="absolute right-3 md:-right-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
-                  >
-                    →
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Thumbnails */}
-            {gallery.length > 1 && (
-              <div
-                className="hidden sm:flex absolute bottom-5 left-1/2 -translate-x-1/2 gap-2"
-                onClick={(e) => e.stopPropagation()}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {lightbox && (
+              <motion.div
+                className="fixed inset-0 z-[100] bg-void/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-8"
+                role="dialog"
+                aria-modal="true"
+                aria-label={`${title} album`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                onClick={() => setLightbox(false)}
               >
-                {gallery.map((src, i) => (
-                  <button
-                    key={src}
-                    type="button"
-                    onClick={() => setIndex(i)}
-                    aria-label={`${i + 1}. kép`}
-                    aria-pressed={i === index}
-                    className={`relative w-14 md:w-16 aspect-[2/3] overflow-hidden border transition-all duration-300 ${
-                      i === index
-                        ? "border-[var(--project-accent)] opacity-100"
-                        : "border-paper/15 opacity-40 hover:opacity-70"
-                    }`}
-                  >
-                    <img
-                      src={src}
-                      alt=""
-                      className="absolute inset-0 w-full h-full object-cover"
+                {/* Counter */}
+                <span className="absolute top-5 left-5 font-mono text-[11px] tracking-widest2 uppercase text-paper/70 bg-void/60 backdrop-blur-md px-3 py-1.5 border border-paper/10">
+                  {String(index + 1).padStart(2, "0")}
+                  <span className="text-paper/30 mx-1">/</span>
+                  {String(gallery.length).padStart(2, "0")}
+                </span>
+
+                {/* Close */}
+                <button
+                  type="button"
+                  onClick={() => setLightbox(false)}
+                  aria-label="Bezárás"
+                  className="absolute top-4 right-4 h-10 w-10 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
+                >
+                  ×
+                </button>
+
+                <span className="hidden md:block absolute top-6 right-20 font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
+                  ESC a bezáráshoz
+                </span>
+
+                {/* Image */}
+                <div
+                  className="relative flex max-h-[85vh] max-w-6xl items-center justify-center pr-0 sm:pr-24 md:pr-28"
+                  onClick={(e) => e.stopPropagation()}
+                  onTouchStart={onTouchStart}
+                  onTouchEnd={onTouchEnd}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={index}
+                      src={gallery[index]}
+                      alt={`${title} — ${index + 1}. kép`}
+                      className="max-h-[85vh] w-auto max-w-full object-contain"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
                     />
-                  </button>
-                ))}
-              </div>
+                  </AnimatePresence>
+
+                  {/* Nav arrows */}
+                  {gallery.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={prev}
+                        aria-label="Előző kép"
+                        className="absolute left-3 md:-left-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
+                      >
+                        ←
+                      </button>
+                      <button
+                        type="button"
+                        onClick={next}
+                        aria-label="Következő kép"
+                        className="absolute right-3 sm:right-24 md:-right-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
+                      >
+                        →
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {/* EXIF panel */}
+                {activeExif && (
+                  <div className="absolute bottom-4 left-4 right-4 z-10 overflow-hidden rounded-2xl border border-white/10 bg-void/65 p-4 backdrop-blur-xl md:bottom-8 md:left-8 md:right-auto md:max-w-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+                      <p
+                        className="font-mono text-[9px] uppercase tracking-widest3"
+                        style={{ color: accent }}
+                      >
+                        Exif · {String(index + 1).padStart(2, "0")} /{" "}
+                        {String(gallery.length).padStart(2, "0")}
+                      </p>
+                      {activeExif.date && (
+                        <span className="font-mono text-[9px] tracking-widest2 uppercase text-grain/60">
+                          {activeExif.date}
+                        </span>
+                      )}
+                    </div>
+
+                    {activeExif.camera && (
+                      <p className="mt-2 text-sm text-paper">{activeExif.camera}</p>
+                    )}
+                    {activeExif.lens && (
+                      <p className="mt-1 font-mono text-[10px] text-grain/70">
+                        {activeExif.lens}
+                      </p>
+                    )}
+
+                    <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 border-t border-white/10 pt-3 font-mono text-[10px] uppercase tracking-wider text-paper/80">
+                      {activeExif.fNumber && <span>f/{activeExif.fNumber}</span>}
+                      {activeExif.exposureTime && (
+                        <span>{activeExif.exposureTime}</span>
+                      )}
+                      {activeExif.iso && <span>ISO {activeExif.iso}</span>}
+                      {activeExif.focalLength && (
+                        <span>{activeExif.focalLength}</span>
+                      )}
+                    </div>
+
+                    {(activeExif.artist || activeExif.copyright) && (
+                      <p className="mt-3 border-t border-white/10 pt-2 font-mono text-[9px] uppercase tracking-wider text-grain/60">
+                        {activeExif.artist}
+                        {activeExif.artist && activeExif.copyright ? " · " : ""}
+                        {activeExif.copyright ? `© ${activeExif.copyright}` : ""}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Thumbnail rail — jobb oldalon */}
+                {gallery.length > 1 && (
+                  <div
+                    className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 flex-col gap-2 rounded-2xl border border-white/10 bg-void/55 p-2 backdrop-blur-xl sm:flex md:right-6"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="px-1 pb-1 text-center font-mono text-[8px] uppercase tracking-widest2 text-grain/50">
+                      Képek
+                    </span>
+                    {gallery.map((src, i) => (
+                      <button
+                        key={src}
+                        type="button"
+                        onClick={() => setIndex(i)}
+                        aria-label={`${i + 1}. kép`}
+                        aria-pressed={i === index}
+                        className={`relative w-14 md:w-16 aspect-[2/3] overflow-hidden rounded-lg border transition-all duration-300 ${
+                          i === index
+                            ? "border-[var(--project-accent)] opacity-100"
+                            : "border-paper/15 opacity-40 hover:opacity-70"
+                        }`}
+                      >
+                        <img
+                          src={src}
+                          alt=""
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <span className="absolute bottom-0.5 left-0.5 bg-void/70 px-1 font-mono text-[8px] text-paper/70 backdrop-blur-sm">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
             )}
-          </motion.div>
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
     </>
+  );
+}
+
+function ExposureChip({ src }: { src: string }) {
+  const exif = useExif(src);
+  if (!exif) return null;
+
+  const exposure = [
+    exif.fNumber ? `f/${exif.fNumber}` : null,
+    exif.exposureTime,
+    exif.iso ? `ISO ${exif.iso}` : null,
+    exif.focalLength,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  if (!exposure) return null;
+
+  return (
+    <div className="pointer-events-none absolute bottom-3 left-3 rounded-full border border-white/10 bg-void/65 px-3 py-1.5 backdrop-blur-md">
+      <p className="font-mono text-[8px] uppercase tracking-widest2 text-paper/80 md:text-[9px]">
+        {exposure}
+      </p>
+      {exif.camera && (
+        <p className="mt-0.5 font-mono text-[8px] uppercase tracking-widest2 text-paper/45">
+          {exif.camera}
+        </p>
+      )}
+    </div>
   );
 }
