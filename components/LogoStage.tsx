@@ -9,6 +9,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Props = {
   logoSrc?: string;
@@ -33,6 +34,10 @@ export default function LogoStage({
   const stageRef = useRef<HTMLDivElement>(null);
   const inView = useInView(stageRef, { once: true, margin: "-90px" });
   const reduce = useReducedMotion();
+  const isMobile = useIsMobile();
+  /* Phones skip the looping blur animations: they are the heaviest part of the
+     stage and iOS Safari can drop the whole page while decoding them. */
+  const calm = reduce || isMobile;
   const [hovered, setHovered] = useState(false);
 
   const pointerX = useMotionValue(0);
@@ -45,7 +50,7 @@ export default function LogoStage({
   const logoY = useSpring(useTransform(pointerY, [-0.5, 0.5], [-9, 9]), spring);
 
   function handleMove(event: React.MouseEvent<HTMLDivElement>) {
-    if (reduce) return;
+    if (calm) return;
     const rect = event.currentTarget.getBoundingClientRect();
     pointerX.set((event.clientX - rect.left) / rect.width - 0.5);
     pointerY.set((event.clientY - rect.top) / rect.height - 0.5);
@@ -79,7 +84,7 @@ export default function LogoStage({
         className="pointer-events-none absolute -left-[22%] top-[-45%] h-[125%] w-[70%] rounded-full blur-3xl"
         style={{ background: `radial-gradient(circle, ${to}88 0%, transparent 68%)` }}
         animate={
-          reduce || !inView
+          calm || !inView
             ? undefined
             : {
                 x: ["0%", "20%", "-8%", "0%"],
@@ -94,7 +99,7 @@ export default function LogoStage({
         className="pointer-events-none absolute -right-[18%] bottom-[-55%] h-[130%] w-[60%] rounded-full blur-3xl"
         style={{ background: `radial-gradient(circle, ${from}cc 0%, transparent 70%)` }}
         animate={
-          reduce || !inView
+          calm || !inView
             ? undefined
             : {
                 x: ["0%", "-16%", "10%", "0%"],
@@ -136,7 +141,7 @@ export default function LogoStage({
             background: `radial-gradient(circle, ${to}88 0%, transparent 70%)`,
           }}
           animate={
-            reduce || !inView
+            calm || !inView
               ? undefined
               : { opacity: hovered ? 0.9 : 0.45, scale: hovered ? 1.18 : 1 }
           }
@@ -154,7 +159,7 @@ export default function LogoStage({
         }}
         initial={{ top: "30%", opacity: 0 }}
         animate={
-          inView && !reduce
+          inView && !calm
             ? { top: ["30%", "70%"], opacity: [0, 0.9, 0] }
             : { opacity: 0 }
         }
@@ -175,19 +180,20 @@ export default function LogoStage({
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div
           className="flex items-center justify-center"
-          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+          style={{ rotateX, rotateY, transformStyle: calm ? "flat" : "preserve-3d" }}
         >
           <motion.div
+            className="logo-reveal"
             style={{ x: logoX, y: logoY }}
             initial="hidden"
             animate={inView ? "show" : "hidden"}
             variants={{
               hidden: {
                 opacity: 0,
-                scale: reduce ? 1 : 0.8,
-                rotateX: reduce ? 0 : 12,
-                rotateY: reduce ? 0 : -14,
-                filter: reduce ? "blur(0px)" : "blur(28px)",
+                scale: reduce ? 1 : isMobile ? 0.96 : 0.8,
+                rotateX: calm ? 0 : 12,
+                rotateY: calm ? 0 : -14,
+                filter: calm ? "blur(0px)" : "blur(28px)",
               },
               show: {
                 opacity: 1,
@@ -198,8 +204,8 @@ export default function LogoStage({
                 transition: reduce
                   ? { duration: 0.01 }
                   : {
-                      duration: 1.8,
-                      delay: 0.15,
+                      duration: isMobile ? 0.7 : 1.8,
+                      delay: isMobile ? 0.05 : 0.15,
                       ease: [0.16, 1, 0.3, 1],
                     },
               },
@@ -220,7 +226,7 @@ export default function LogoStage({
                       : "max-h-[24vh] max-w-[58vw] md:max-h-[min(34vh,300px)] md:max-w-[480px]"
                   }`}
                   animate={
-                    reduce || !inView
+                    calm || !inView
                       ? undefined
                       : {
                           y: [0, -7, 0],
@@ -240,7 +246,7 @@ export default function LogoStage({
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-[12%] -bottom-7 h-8 rounded-[50%] bg-black/50 blur-2xl"
                 animate={
-                  reduce || !inView
+                  calm || !inView
                     ? undefined
                     : { scaleX: [1, 0.92, 1], opacity: [0.55, 0.35, 0.55] }
                 }
@@ -256,7 +262,7 @@ export default function LogoStage({
         aria-hidden
         className="pointer-events-none absolute inset-y-0 left-0 w-[38%] bg-gradient-to-r from-transparent via-white/25 to-transparent mix-blend-screen blur-2xl"
         initial={{ x: "-140%" }}
-        animate={inView && !reduce ? { x: "300%" } : { x: "-140%" }}
+        animate={inView && !calm ? { x: "300%" } : { x: "-140%" }}
         transition={{ duration: 2.4, delay: 1.05, ease: [0.4, 0, 0.2, 1] }}
       />
 

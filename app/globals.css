@@ -23,6 +23,14 @@ body {
   color: #F2EDE4;
 }
 
+/* Phones skip the blurred logo reveal: the animated filter is the heaviest
+   part of the cover and can take mobile Safari down while it rasterises. */
+@media (max-width: 767px) {
+  .logo-reveal {
+    filter: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
