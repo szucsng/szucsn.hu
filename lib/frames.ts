@@ -84,30 +84,6 @@ export const frames: Frame[] = [
   },
   {
     id: "04",
-    slug: "portre-sorozat-kezmuvesek",
-    kind: "photo",
-    title: "Portré sorozat — kézművesek",
-    year: "2024",
-    description:
-      "Hat portré vidéki kézművesekről, természetes fényben, a munkakörnyezetükben fotózva.",
-    longDescription:
-      "Egy portrésorozat vidéki kézművesekről, akik a hagyományos mesterségeket élik tovább. Minden portré a alany természetes munkakörnyezetében készült, természetes fényben, minimális beavatkozással.\n\nA célom az volt, hogy a személyes történeteket és a mesterség iránti elhivatottságot ábrázoljam, miközben a természetes fény és a környezet adják a képek hangulatát.",
-    meta: [
-      { label: "f/", value: "1.8" },
-      { label: "ISO", value: "200" },
-    ],
-    href: "#",
-    swatch: ["#1a1815", "#6b5b4a"],
-    gallery: [
-      "/images/galleries/04-1.svg",
-      "/images/galleries/04-2.svg",
-      "/images/galleries/04-3.svg",
-    ],
-    role: "Fotós & utómunka",
-    technologies: ["Canon EOS 6D", "50mm f/1.8", "Természetes fény"],
-  },
-  {
-    id: "05",
     slug: "plczk-art",
     kind: "code",
     title: "plczk_art",
@@ -126,52 +102,6 @@ export const frames: Frame[] = [
     swatch: ["#2a0e1a", "#e2559a"],
     role: "Fejlesztő & designer",
     technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
-  },
-  {
-    id: "06",
-    slug: "cli-eszkoz-csapatoknak",
-    kind: "code",
-    title: "CLI eszköz csapatoknak",
-    year: "2023",
-    description:
-      "Parancssori eszköz, ami automatizálja a release-folyamatot: changelog, verziózás, deploy egy lépésben.",
-    longDescription:
-      "Ez a parancssori eszköz a fejlesztői csapatok mindennapi munkafolyamatát egyszerűsíti le. Automatizálja a release-folyamatot: verziószámok kezelése, changelog generálás, és deploy indítás mindössze egyetlen paranccsal.\n\nGo-ban írtam a maximális teljesíny és hordozhatóság érdekében. Nyílt forráskódú, és már több mint 12 ezer letöltése van havonta.",
-    meta: [
-      { label: "LANG", value: "Go" },
-      { label: "LETÖLTÉS", value: "12k+ / hó" },
-      { label: "SZEREP", value: "Nyílt forráskód" },
-    ],
-    href: "#",
-    swatch: ["#201e19", "#3f4a4d"],
-    logo: "/images/logos/cli.svg",
-    role: "Tervező & fejlesztő",
-    technologies: ["Go", "CLI", "GitHub Actions", "Semantic Versioning"],
-  },
-  {
-    id: "07",
-    slug: "taj-karpátok",
-    kind: "photo",
-    title: "Táj — Kárpátok",
-    year: "2023",
-    description:
-      "Egyhetes túra anyaga a Kárpátokból, közepes formátumú kamerával, hajnali és alkonyati fényben.",
-    longDescription:
-      "Egyhetes gyalogos túra anyaga a Kárpátokban, közepes formátumú kamerával (6x7) rögzítve. A sorozat a hajnali és alkonyati órákban készült, amikor a fény a legdrámaibb és legmelegebb.\n\nA közepes formátum nagyobb felbontása és sekély mélységélessége olyan részletgazdagságot és hangulatot ad a képeknek, amelyet a digitális eszközök nehezen tudnak utánozni.",
-    meta: [
-      { label: "f/", value: "8" },
-      { label: "ISO", value: "100" },
-      { label: "FORMÁTUM", value: "6x7 közepes" },
-    ],
-    href: "#",
-    swatch: ["#181614", "#7a6a52"],
-    gallery: [
-      "/images/galleries/06-1.svg",
-      "/images/galleries/06-2.svg",
-      "/images/galleries/06-3.svg",
-    ],
-    role: "Fotós & utómunka",
-    technologies: ["Mamiya RB67", "Közepes formátum", "Diafilm", "Sötét szoba"],
   },
 ];
 
