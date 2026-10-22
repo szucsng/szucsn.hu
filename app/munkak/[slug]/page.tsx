@@ -63,22 +63,49 @@ export default async function ProjectPage({ params }: Props) {
   const accentFaint = `${to}1a`;
 
   return (
-    <>
-      <Nav />
-      <ScrollProgress accent={accent}>
-        <main>
-          <article
-            style={
-              {
-                "--project-accent": accent,
-              } as React.CSSProperties
-            }
-          >
-            {/* ── Cover visual ───────────────────────────────────── */}
-            <section className="relative pt-16">
-              <div className="sprockets mt-6" aria-hidden="true" />
+    <div
+      className="relative min-h-screen"
+      style={
+        {
+          "--project-accent": accent,
+          "--project-accent-soft": `${accent}33`,
+        } as React.CSSProperties
+      }
+    >
+      {/* ── Ambient brand background ─────────────────────────── */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      >
+        <div
+          className="absolute -left-[28%] -top-[28%] h-[85vh] w-[85vw] rounded-full opacity-50 blur-[150px]"
+          style={{
+            background: `radial-gradient(circle, ${to}66 0%, transparent 68%)`,
+          }}
+        />
+        <div
+          className="absolute -right-[28%] top-[8%] h-[75vh] w-[75vw] rounded-full opacity-40 blur-[150px]"
+          style={{
+            background: `radial-gradient(circle, ${from}99 0%, transparent 68%)`,
+          }}
+        />
+        <div
+          className="absolute bottom-[-22%] left-[12%] h-[60vh] w-[70vw] rounded-full opacity-30 blur-[170px]"
+          style={{
+            background: `radial-gradient(circle, ${accent}44 0%, transparent 70%)`,
+          }}
+        />
+        <div className="absolute inset-0 bg-void/55" />
+        <div className="grain-overlay" />
+      </div>
 
-              <div className="relative h-[58vh] min-h-[420px] w-full overflow-hidden md:h-[68vh] md:min-h-[520px]">
+      <div className="relative z-10">
+        <Nav />
+        <ScrollProgress accent={accent}>
+          <main>
+            <article>
+              {/* ── Full-bleed cover ──────────────────────────── */}
+              <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
                 {hasGallery ? (
                   <div className="absolute inset-0 overflow-hidden bg-void">
                     <img
@@ -92,7 +119,7 @@ export default async function ProjectPage({ params }: Props) {
                       alt={`${frame.title} — borítókép`}
                       className="relative z-10 mx-auto h-full w-auto max-w-full object-contain"
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-void/20" />
+                    <div className="pointer-events-none absolute inset-0 bg-void/25" />
                     <div className="grain-overlay" aria-hidden="true" />
                   </div>
                 ) : (
@@ -107,174 +134,175 @@ export default async function ProjectPage({ params }: Props) {
                   />
                 )}
 
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-void to-transparent" />
-              </div>
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-void via-void/50 to-transparent" />
+              </section>
 
-              <div className="sprockets-thin" aria-hidden="true" />
-            </section>
-
-            {/* ── Title + intro ──────────────────────────────────── */}
-            <section className="relative max-w-6xl mx-auto px-6 md:px-10 pt-12 md:pt-16">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-80"
-                style={{
-                  background: `radial-gradient(ellipse at 18% 0%, ${accent}14 0%, transparent 70%)`,
-                }}
-              />
-
-              <div className="relative">
-                <Reveal>
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="inline-flex items-center border px-3 py-1 font-mono text-[10px] tracking-widest3 uppercase"
-                      style={{
-                        borderColor: accentSoft,
-                        backgroundColor: accentFaint,
-                        color: accent,
-                      }}
-                    >
-                      {category}
-                    </span>
-                    <span className="font-mono text-[11px] text-grain/60">
-                      {frame.year}
-                    </span>
-                  </div>
-
-                  <h1 className="mt-6 max-w-5xl font-display italic text-display-xl text-paper">
-                    {frame.title}
-                  </h1>
-
+              {/* ── Glass title card ──────────────────────────── */}
+              <section className="relative z-10 mx-auto -mt-28 max-w-6xl px-4 md:-mt-36 md:px-6">
+                <div className="glass relative overflow-hidden rounded-[2rem] p-6 md:p-10 lg:p-12">
+                  <div className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                   <div
-                    className="mt-8 h-px w-16 opacity-70"
-                    style={{ backgroundColor: accent }}
+                    className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full opacity-40 blur-3xl"
+                    style={{
+                      background: `radial-gradient(circle, ${accent}66 0%, transparent 70%)`,
+                    }}
                   />
-                </Reveal>
 
-                <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-                  <Reveal className="max-w-2xl">
-                    <p className="font-mono text-[10px] tracking-widest3 uppercase text-grain/60">
-                      Bevezető
-                    </p>
-                    <p className="mt-4 text-xl leading-relaxed text-paper/90 md:text-2xl">
-                      {frame.description}
-                    </p>
-                  </Reveal>
-
-                  {liveHref && (
-                    <Reveal delay={0.1} className="shrink-0">
-                      <a
-                        href={liveHref}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-3 border border-paper/20 px-6 py-3 font-mono text-[11px] tracking-widest2 uppercase text-paper transition-all duration-400 hover:border-[var(--project-accent)] hover:text-[var(--project-accent)]"
+                  <div className="relative">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span
+                        className="inline-flex items-center rounded-full border px-3 py-1 font-mono text-[10px] tracking-widest3 uppercase backdrop-blur-md"
+                        style={{
+                          borderColor: accentSoft,
+                          backgroundColor: accentFaint,
+                          color: accent,
+                        }}
                       >
-                        Oldal megtekintése
-                        <span
-                          className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                          style={{ color: accent }}
-                        >
-                          ↗
-                        </span>
-                      </a>
-                    </Reveal>
-                  )}
-                </div>
+                        {category}
+                      </span>
+                      <span className="font-mono text-[11px] text-grain/60">
+                        {frame.year}
+                      </span>
+                    </div>
 
-                <Reveal delay={0.15}>
-                  <dl className="mt-14 grid grid-cols-2 gap-px border-y border-paper/10 bg-paper/10 md:grid-cols-4">
-                    {facts.map((fact) => (
-                      <div key={fact.label} className="bg-void px-5 py-6">
-                        <dt className="font-mono text-[10px] tracking-widest3 uppercase text-grain/50">
-                          {fact.label}
-                        </dt>
-                        <dd className="mt-2 text-sm text-paper">{fact.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </Reveal>
-              </div>
-            </section>
+                    <h1 className="mt-6 max-w-4xl font-display italic text-display-xl text-paper">
+                      {frame.title}
+                    </h1>
 
-            {/* ── Album (photo) ──────────────────────────────────── */}
-            {hasGallery && (
-              <div className="mt-20">
-                <ProjectGallery
-                  gallery={frame.gallery!}
-                  title={frame.title}
-                  accent={accent}
-                />
-              </div>
-            )}
+                    <div
+                      className="mt-8 h-px w-16 opacity-70"
+                      style={{ backgroundColor: accent }}
+                    />
 
-            {/* ── Story ──────────────────────────────────────────── */}
-            <section className="max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-36">
-              <div className="grid grid-cols-1 gap-14 md:grid-cols-12 md:gap-8">
-                <div className="md:col-span-7 md:col-start-2">
-                  <Reveal>
-                    <p
-                      className="font-mono text-[10px] tracking-widest3 uppercase"
-                      style={{ color: accent }}
-                    >
-                      01 — A projektről
-                    </p>
-                    <h2 className="mt-4 font-display italic text-display-md text-paper">
-                      A történet
-                    </h2>
-                  </Reveal>
-
-                  <div className="mt-10 space-y-8">
-                    {paragraphs.map((paragraph, index) => (
-                      <Reveal key={index} delay={index * 0.05}>
-                        <p
-                          className={
-                            index === 0
-                              ? "text-xl leading-relaxed text-paper/90 md:text-2xl"
-                              : "text-base leading-relaxed text-grain md:text-lg"
-                          }
-                        >
-                          {paragraph}
+                    <div className="mt-8 grid gap-8 md:grid-cols-12">
+                      <div className="md:col-span-7">
+                        <p className="font-mono text-[10px] tracking-widest3 uppercase text-grain/60">
+                          Bevezető
                         </p>
-                      </Reveal>
-                    ))}
+                        <p className="mt-4 text-xl leading-relaxed text-paper/90 md:text-2xl">
+                          {frame.description}
+                        </p>
+                      </div>
+
+                      {liveHref && (
+                        <div className="flex items-end md:col-span-4 md:col-start-9">
+                          <a
+                            href={liveHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-6 py-3 font-mono text-[11px] tracking-widest2 uppercase text-paper backdrop-blur-xl transition-all duration-400 hover:border-[var(--project-accent)] hover:text-[var(--project-accent)]"
+                          >
+                            Oldal megtekintése
+                            <span
+                              className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                              style={{ color: accent }}
+                            >
+                              ↗
+                            </span>
+                          </a>
+                        </div>
+                      )}
+                    </div>
+
+                    <dl className="mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-4">
+                      {facts.map((fact) => (
+                        <div key={fact.label} className="bg-void/40 px-4 py-4">
+                          <dt className="font-mono text-[10px] tracking-widest3 uppercase text-grain/50">
+                            {fact.label}
+                          </dt>
+                          <dd className="mt-2 text-sm text-paper">
+                            {fact.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                </div>
+              </section>
+
+              {/* ── Album (photo) ─────────────────────────────── */}
+              {hasGallery && (
+                <section className="mx-auto mt-6 max-w-6xl px-4 md:px-6">
+                  <div className="glass rounded-[2rem] p-4 md:p-6">
+                    <ProjectGallery
+                      gallery={frame.gallery!}
+                      title={frame.title}
+                      accent={accent}
+                    />
+                  </div>
+                </section>
+              )}
+
+              {/* ── Story + sidebar ───────────────────────────── */}
+              <section className="mx-auto mt-6 max-w-6xl px-4 md:px-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
+                  <div className="md:col-span-8">
+                    <div className="glass rounded-[2rem] p-6 md:p-10">
+                      <p
+                        className="font-mono text-[10px] tracking-widest3 uppercase"
+                        style={{ color: accent }}
+                      >
+                        01 — A projektről
+                      </p>
+                      <h2 className="mt-4 font-display italic text-display-md text-paper">
+                        A történet
+                      </h2>
+
+                      <div className="mt-8 space-y-6">
+                        {paragraphs.map((paragraph, index) => (
+                          <Reveal key={index} delay={index * 0.04}>
+                            <p
+                              className={
+                                index === 0
+                                  ? "text-xl leading-relaxed text-paper/90 md:text-2xl"
+                                  : "text-base leading-relaxed text-grain md:text-lg"
+                              }
+                            >
+                              {paragraph}
+                            </p>
+                          </Reveal>
+                        ))}
+                      </div>
+
+                      {frame.technologies && frame.technologies.length > 0 && (
+                        <Reveal delay={0.1}>
+                          <div className="mt-14 border-t border-white/10 pt-8">
+                            <p
+                              className="font-mono text-[10px] tracking-widest3 uppercase"
+                              style={{ color: accent }}
+                            >
+                              02 —{" "}
+                              {isPhoto
+                                ? "Eszközök & utómunka"
+                                : "Technológiák"}
+                            </p>
+
+                            <ul className="mt-6 grid grid-cols-1 gap-x-8 sm:grid-cols-2">
+                              {frame.technologies.map((technology, index) => (
+                                <li
+                                  key={technology}
+                                  className="flex items-baseline gap-3 border-t border-white/10 py-3"
+                                >
+                                  <span
+                                    className="font-mono text-[10px] opacity-70"
+                                    style={{ color: accent }}
+                                  >
+                                    {String(index + 1).padStart(2, "0")}
+                                  </span>
+                                  <span className="text-sm text-paper">
+                                    {technology}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </Reveal>
+                      )}
+                    </div>
                   </div>
 
-                  {frame.technologies && frame.technologies.length > 0 && (
-                    <Reveal delay={0.1}>
-                      <div className="mt-20">
-                        <p
-                          className="font-mono text-[10px] tracking-widest3 uppercase"
-                          style={{ color: accent }}
-                        >
-                          02 — {isPhoto ? "Eszközök & utómunka" : "Technológiák"}
-                        </p>
-
-                        <ul className="mt-8 grid grid-cols-1 gap-x-10 sm:grid-cols-2">
-                          {frame.technologies.map((technology, index) => (
-                            <li
-                              key={technology}
-                              className="flex items-baseline gap-4 border-t border-paper/10 py-4"
-                            >
-                              <span
-                                className="font-mono text-[10px] opacity-70"
-                                style={{ color: accent }}
-                              >
-                                {String(index + 1).padStart(2, "0")}
-                              </span>
-                              <span className="text-sm text-paper">
-                                {technology}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </Reveal>
-                  )}
-                </div>
-
-                <aside className="md:col-span-3">
-                  <Reveal delay={0.1} className="md:sticky md:top-24">
-                    <div>
+                  <aside className="md:col-span-4">
+                    <div className="glass rounded-[2rem] p-6 md:sticky md:top-24">
                       <p
                         className="font-mono text-[10px] tracking-widest3 uppercase"
                         style={{ color: accent }}
@@ -282,7 +310,7 @@ export default async function ProjectPage({ params }: Props) {
                         Projekt adatai
                       </p>
 
-                      <dl className="mt-6">
+                      <dl className="mt-5">
                         <FactRow label="Szerep" value={frame.role || "—"} />
                         <FactRow label="Év" value={frame.year} />
                         <FactRow label="Kategória" value={category} />
@@ -325,18 +353,23 @@ export default async function ProjectPage({ params }: Props) {
                         Vissza a munkákhoz
                       </Link>
                     </div>
-                  </Reveal>
-                </aside>
-              </div>
-            </section>
+                  </aside>
+                </div>
+              </section>
 
-            {/* ── Next project ───────────────────────────────────── */}
-            {featuredFrame && (
-              <section className="border-t border-paper/10">
-                <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28 text-center">
-                  <Reveal>
+              {/* ── Next project ──────────────────────────────── */}
+              {featuredFrame && (
+                <section className="mx-auto mt-6 max-w-6xl px-4 pb-10 md:px-6">
+                  <div className="glass relative overflow-hidden rounded-[2rem] px-6 py-14 text-center md:py-20">
+                    <div
+                      className="pointer-events-none absolute left-1/2 top-0 h-64 w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
+                      style={{
+                        background: `radial-gradient(circle, ${accent}66 0%, transparent 70%)`,
+                      }}
+                    />
+
                     <p
-                      className="font-mono text-[10px] tracking-widest3 uppercase"
+                      className="relative font-mono text-[10px] tracking-widest3 uppercase"
                       style={{ color: accent }}
                     >
                       {nextFrame ? "Következő projekt" : "Előző projekt"}
@@ -344,7 +377,7 @@ export default async function ProjectPage({ params }: Props) {
 
                     <Link
                       href={`/munkak/${featuredFrame.slug}`}
-                      className="group mt-6 block"
+                      className="group relative mt-6 block"
                     >
                       <span className="block font-display italic text-display-lg text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
                         {featuredFrame.title}
@@ -356,51 +389,51 @@ export default async function ProjectPage({ params }: Props) {
                         · {featuredFrame.year}
                       </span>
                     </Link>
-                  </Reveal>
 
-                  <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-paper/10 pt-6 font-mono text-[10px] uppercase tracking-widest2 text-grain/50">
-                    {prevFrame ? (
+                    <div className="relative mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-6 font-mono text-[10px] uppercase tracking-widest2 text-grain/50">
+                      {prevFrame ? (
+                        <Link
+                          href={`/munkak/${prevFrame.slug}`}
+                          className="transition-colors duration-300 hover:text-paper"
+                        >
+                          ← Előző: {prevFrame.title}
+                        </Link>
+                      ) : (
+                        <span />
+                      )}
+
                       <Link
-                        href={`/munkak/${prevFrame.slug}`}
+                        href="/munkak"
                         className="transition-colors duration-300 hover:text-paper"
                       >
-                        ← Előző: {prevFrame.title}
+                        Összes munka
                       </Link>
-                    ) : (
-                      <span />
-                    )}
 
-                    <Link
-                      href="/munkak"
-                      className="transition-colors duration-300 hover:text-paper"
-                    >
-                      Összes munka
-                    </Link>
-
-                    {nextFrame ? (
-                      <span className="text-grain/30">
-                        Következő: {nextFrame.title}
-                      </span>
-                    ) : (
-                      <span />
-                    )}
+                      {nextFrame ? (
+                        <span className="text-grain/30">
+                          Következő: {nextFrame.title}
+                        </span>
+                      ) : (
+                        <span />
+                      )}
+                    </div>
                   </div>
-                </div>
-              </section>
-            )}
+                </section>
+              )}
 
-            <Contact />
-          </article>
-        </main>
-      </ScrollProgress>
-      <Footer />
-    </>
+              <Contact />
+            </article>
+          </main>
+        </ScrollProgress>
+        <Footer />
+      </div>
+    </div>
   );
 }
 
 function FactRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-paper/10 py-3">
+    <div className="flex items-baseline justify-between gap-4 border-b border-white/10 py-3 last:border-b-0">
       <dt className="font-mono text-[10px] uppercase tracking-widest2 text-grain/55">
         {label}
       </dt>

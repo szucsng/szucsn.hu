@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   motion,
   useInView,
@@ -33,6 +33,7 @@ export default function LogoStage({
   const stageRef = useRef<HTMLDivElement>(null);
   const inView = useInView(stageRef, { once: true, margin: "-90px" });
   const reduce = useReducedMotion();
+  const [hovered, setHovered] = useState(false);
 
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
@@ -53,6 +54,7 @@ export default function LogoStage({
   function handleLeave() {
     pointerX.set(0);
     pointerY.set(0);
+    setHovered(false);
   }
 
   return (
@@ -68,6 +70,7 @@ export default function LogoStage({
         perspective: 1100,
       }}
       onMouseMove={handleMove}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleLeave}
     >
       {/* Ambient light — két lassan mozgó glow */}
@@ -124,30 +127,51 @@ export default function LogoStage({
       />
       <div className="grain-overlay" aria-hidden="true" />
 
-      {/* Lassan forgó conic ring */}
-      <div className="pointer-events-none absolute inset-0 hidden items-center justify-center md:flex">
+      {/* Finom háttérglow a logó mögött */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <motion.div
           aria-hidden
-          className="aspect-square h-[76%] rounded-full opacity-50"
+          className="h-[42%] w-[42%] rounded-full blur-[90px]"
           style={{
-            background: `conic-gradient(from 0deg, transparent 0deg, ${to} 78deg, transparent 168deg, transparent 228deg, #f2ede4 306deg, transparent 360deg)`,
-            maskImage:
-              "radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px))",
-            WebkitMaskImage:
-              "radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px))",
+            background: `radial-gradient(circle, ${to}88 0%, transparent 70%)`,
           }}
-          animate={reduce || !inView ? undefined : { rotate: 360 }}
-          transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
+          animate={
+            reduce || !inView
+              ? undefined
+              : { opacity: hovered ? 0.9 : 0.45, scale: hovered ? 1.18 : 1 }
+          }
+          transition={{ duration: 1.1, ease: "easeInOut" }}
         />
       </div>
 
+      {/* Scan vonal a logó megjelenésekor */}
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 h-px w-[48%] -translate-x-1/2"
+        style={{
+          background: `linear-gradient(90deg, transparent, ${to}, #f2ede4, ${to}, transparent)`,
+          boxShadow: `0 0 26px ${to}99`,
+        }}
+        initial={{ top: "30%", opacity: 0 }}
+        animate={
+          inView && !reduce
+            ? { top: ["30%", "70%"], opacity: [0, 0.9, 0] }
+            : { opacity: 0 }
+        }
+        transition={{ duration: 1.9, delay: 0.2, ease: [0.4, 0, 0.2, 1] }}
+      />
+
       {/* Sarokjelzések — viewfinder */}
-      <span className="pointer-events-none absolute left-4 top-4 h-4 w-4 border-l border-t border-paper/30" />
-      <span className="pointer-events-none absolute right-4 top-4 h-4 w-4 border-r border-t border-paper/30" />
+      {!isCover && (
+        <>
+          <span className="pointer-events-none absolute left-4 top-4 h-4 w-4 border-l border-t border-paper/30" />
+          <span className="pointer-events-none absolute right-4 top-4 h-4 w-4 border-r border-t border-paper/30" />
+        </>
+      )}
       <span className="pointer-events-none absolute bottom-4 left-4 h-4 w-4 border-b border-l border-paper/30" />
       <span className="pointer-events-none absolute bottom-4 right-4 h-4 w-4 border-b border-r border-paper/30" />
 
-      {/* Logó — fókusz behúzás + finom lebegés + parallax */}
+      {/* Logó — 3D fókusz behúzás + lebegés + parallax */}
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div
           className="flex items-center justify-center"
@@ -160,40 +184,69 @@ export default function LogoStage({
             variants={{
               hidden: {
                 opacity: 0,
-                scale: reduce ? 1 : 0.82,
-                filter: reduce ? "blur(0px)" : "blur(26px)",
+                scale: reduce ? 1 : 0.8,
+                rotateX: reduce ? 0 : 12,
+                rotateY: reduce ? 0 : -14,
+                filter: reduce ? "blur(0px)" : "blur(28px)",
               },
               show: {
                 opacity: 1,
                 scale: 1,
+                rotateX: 0,
+                rotateY: 0,
                 filter: "blur(0px)",
                 transition: reduce
                   ? { duration: 0.01 }
-                  : { duration: 1.5, delay: 0.12, ease: [0.16, 1, 0.3, 1] },
+                  : {
+                      duration: 1.8,
+                      delay: 0.15,
+                      ease: [0.16, 1, 0.3, 1],
+                    },
               },
             }}
           >
-            {logoSrc ? (
-              <motion.img
-                src={logoSrc}
-                alt={`${title} logó`}
-                className={`w-auto object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)] ${
-                  isCover
-                    ? "max-h-[32vh] max-w-[70vw] md:max-h-[42vh] md:max-w-[600px]"
-                    : "max-h-[24vh] max-w-[58vw] md:max-h-[min(34vh,300px)] md:max-w-[480px]"
-                }`}
+            <motion.div
+              className="relative"
+              animate={{ scale: hovered ? 1.035 : 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {logoSrc ? (
+                <motion.img
+                  src={logoSrc}
+                  alt={`${title} logó`}
+                  className={`w-auto object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)] ${
+                    isCover
+                      ? "max-h-[38vh] max-w-[76vw] md:max-h-[48vh] md:max-w-[680px]"
+                      : "max-h-[24vh] max-w-[58vw] md:max-h-[min(34vh,300px)] md:max-w-[480px]"
+                  }`}
+                  animate={
+                    reduce || !inView
+                      ? undefined
+                      : {
+                          y: [0, -7, 0],
+                          rotate: [0, 0.4, 0],
+                        }
+                  }
+                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                />
+              ) : (
+                <span className="font-display italic text-5xl text-paper md:text-7xl">
+                  {title}
+                </span>
+              )}
+
+              {/* talajárnyék */}
+              <motion.div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-[12%] -bottom-7 h-8 rounded-[50%] bg-black/50 blur-2xl"
                 animate={
                   reduce || !inView
                     ? undefined
-                    : { y: [0, -7, 0], rotate: [0, 0.6, 0] }
+                    : { scaleX: [1, 0.92, 1], opacity: [0.55, 0.35, 0.55] }
                 }
                 transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
               />
-            ) : (
-              <span className="font-display italic text-5xl text-paper md:text-7xl">
-                {title}
-              </span>
-            )}
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>
@@ -201,14 +254,18 @@ export default function LogoStage({
       {/* Fénypászta a logó megjelenése után */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 w-[42%] bg-gradient-to-r from-transparent via-white/15 to-transparent blur-2xl"
+        className="pointer-events-none absolute inset-y-0 left-0 w-[38%] bg-gradient-to-r from-transparent via-white/25 to-transparent mix-blend-screen blur-2xl"
         initial={{ x: "-140%" }}
         animate={inView && !reduce ? { x: "300%" } : { x: "-140%" }}
         transition={{ duration: 2.4, delay: 1.05, ease: [0.4, 0, 0.2, 1] }}
       />
 
       {/* Képernyő feliratok */}
-      <div className="absolute inset-x-0 top-0 flex items-start justify-between p-5">
+      <div
+        className={`absolute inset-x-0 top-0 items-start justify-between p-5 ${
+          isCover ? "hidden" : "flex"
+        }`}
+      >
         <motion.span
           className="bg-void/40 px-2.5 py-1 font-mono text-[11px] uppercase tracking-widest2 text-paper/80 backdrop-blur-sm"
           initial={{ opacity: 0, y: -8 }}
