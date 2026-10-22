@@ -21,7 +21,7 @@ export const frames: Frame[] = [
     slug: "reservell",
     kind: "code",
     title: "Reservell.com",
-    year: "2025",
+    year: "2026",
     description:
       "Modern időpontfoglalási és szalonmenedzsment platform, amely egyetlen rendszerben köti össze a vendégeket és a szolgáltatókat.",
     longDescription:
