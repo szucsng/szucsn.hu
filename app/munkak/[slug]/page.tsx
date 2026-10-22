@@ -231,8 +231,12 @@ export default async function ProjectPage({ params }: Props) {
           {/* ── Navigation between projects ────────────────────── */}
           <section className="border-t border-paper/10">
             <div className="max-w-6xl mx-auto px-6 md:px-10 py-14">
-              <div className="grid grid-cols-2 gap-px bg-paper/10">
-                {prevFrame ? (
+              <div
+                className={`grid gap-px bg-paper/10 ${
+                  prevFrame && nextFrame ? "grid-cols-2" : "grid-cols-1"
+                }`}
+              >
+                {prevFrame && (
                   <Link
                     href={`/munkak/${prevFrame.slug}`}
                     className="group bg-void p-6 md:p-10 hover:bg-void-light transition-colors duration-400"
@@ -247,10 +251,8 @@ export default async function ProjectPage({ params }: Props) {
                       {prevFrame.year}
                     </p>
                   </Link>
-                ) : (
-                  <div className="bg-void p-6 md:p-10 opacity-20" />
                 )}
-                {nextFrame ? (
+                {nextFrame && (
                   <Link
                     href={`/munkak/${nextFrame.slug}`}
                     className="group bg-void p-6 md:p-10 hover:bg-void-light transition-colors duration-400 text-right"
@@ -265,8 +267,6 @@ export default async function ProjectPage({ params }: Props) {
                       {nextFrame.year}
                     </p>
                   </Link>
-                ) : (
-                  <div className="bg-void p-6 md:p-10 opacity-20" />
                 )}
               </div>
             </div>
