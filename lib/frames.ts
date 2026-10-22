@@ -97,7 +97,7 @@ export const frames: Frame[] = [
       { label: "STACK", value: "Next.js" },
       { label: "SZEREP", value: "Fejlesztő & designer" },
     ],
-    href: "#",
+    href: "https://plczkart.szucsn.hu",
     logo: "/images/logos/plczk_art.png",
     swatch: ["#2a0e1a", "#e2559a"],
     role: "Fejlesztő & designer",

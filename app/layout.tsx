@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="hu" className={`${fraunces.variable} ${inter.variable} ${jbmono.variable}`}>
       <body className="font-body antialiased bg-void text-paper">
-        <MotionConfig reducedMotion="never">{children}</MotionConfig>
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   );

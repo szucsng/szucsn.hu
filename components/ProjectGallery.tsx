@@ -7,9 +7,14 @@ import Reveal from "./Reveal";
 type Props = {
   gallery: string[];
   title: string;
+  accent?: string;
 };
 
-export default function ProjectGallery({ gallery, title }: Props) {
+export default function ProjectGallery({
+  gallery,
+  title,
+  accent = "#B8492E",
+}: Props) {
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const touchStart = useRef<number | null>(null);
@@ -76,7 +81,10 @@ export default function ProjectGallery({ gallery, title }: Props) {
           {/* Album header */}
           <div className="flex flex-wrap items-end justify-between gap-3 mb-5 border-b border-paper/10 pb-4">
             <div>
-              <p className="font-mono text-[11px] tracking-widest3 uppercase text-safelight">
+              <p
+                className="font-mono text-[11px] tracking-widest3 uppercase"
+                style={{ color: accent }}
+              >
                 Album
               </p>
               <p className="mt-1 font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
@@ -96,7 +104,7 @@ export default function ProjectGallery({ gallery, title }: Props) {
                 type="button"
                 onClick={() => open(i)}
                 aria-label={`${title} — ${i + 1}. kép megnyitása`}
-                className="group relative block w-full overflow-hidden border border-paper/10 bg-void-light text-left transition-colors duration-400 hover:border-safelight/50"
+                className="group relative block w-full overflow-hidden border border-paper/10 bg-void-light text-left transition-colors duration-400 hover:border-[var(--project-accent)]"
               >
                 <img
                   src={src}
@@ -147,7 +155,7 @@ export default function ProjectGallery({ gallery, title }: Props) {
               type="button"
               onClick={() => setLightbox(false)}
               aria-label="Bezárás"
-              className="absolute top-4 right-4 h-10 w-10 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
+              className="absolute top-4 right-4 h-10 w-10 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
             >
               ×
             </button>
@@ -183,7 +191,7 @@ export default function ProjectGallery({ gallery, title }: Props) {
                     type="button"
                     onClick={prev}
                     aria-label="Előző kép"
-                    className="absolute left-3 md:-left-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
+                    className="absolute left-3 md:-left-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
                   >
                     ←
                   </button>
@@ -191,7 +199,7 @@ export default function ProjectGallery({ gallery, title }: Props) {
                     type="button"
                     onClick={next}
                     aria-label="Következő kép"
-                    className="absolute right-3 md:-right-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-safelight hover:text-safelight transition-all duration-300"
+                    className="absolute right-3 md:-right-16 top-1/2 -translate-y-1/2 h-11 w-11 md:h-12 md:w-12 inline-flex items-center justify-center border border-paper/20 bg-void/60 backdrop-blur-md font-mono text-paper hover:border-[var(--project-accent)] hover:text-[var(--project-accent)] transition-all duration-300"
                   >
                     →
                   </button>
@@ -214,7 +222,7 @@ export default function ProjectGallery({ gallery, title }: Props) {
                     aria-pressed={i === index}
                     className={`relative w-14 md:w-16 aspect-[2/3] overflow-hidden border transition-all duration-300 ${
                       i === index
-                        ? "border-safelight opacity-100"
+                        ? "border-[var(--project-accent)] opacity-100"
                         : "border-paper/15 opacity-40 hover:opacity-70"
                     }`}
                   >

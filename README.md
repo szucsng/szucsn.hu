@@ -94,7 +94,7 @@ Fontosabb mezők:
 - `kind: "code"` — a kártya mindig a projekt leírására visz. Ha van `href`, az élő oldal a leírás oldalán az **Oldal megtekintése** gombbal nyílik meg.
 - `kind: "photo"` — a `gallery` képei albumként jelennek meg a projektoldalon, vágás nélkül.
 - `slug` — ebből lesz a URL: `/munkak/plczk-art`.
-- `swatch` — a borító gradiens két színe.
+- `swatch` — a borító gradiens két színe; a második szín lesz a projektoldal accentje is.
 - `logo` — opcionális, érdemes átlátszó hátterű PNG-t használni.
 - `gallery` — a képek a `public/images/galleries/` mappából.
 - `longDescription` — a bekezdéseket `\n\n` választja el.

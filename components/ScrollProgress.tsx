@@ -5,9 +5,10 @@ import { useRef } from "react";
 
 type Props = {
   children: React.ReactNode;
+  accent?: string;
 };
 
-export default function ScrollProgress({ children }: Props) {
+export default function ScrollProgress({ children, accent }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -20,7 +21,7 @@ export default function ScrollProgress({ children }: Props) {
     <div ref={ref} className="relative">
       <motion.div
         className="fixed top-16 left-0 right-0 h-[2px] bg-safelight origin-left z-50"
-        style={{ scaleX }}
+        style={{ scaleX, backgroundColor: accent }}
       />
       {children}
     </div>
