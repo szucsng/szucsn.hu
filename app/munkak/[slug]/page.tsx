@@ -74,77 +74,100 @@ export default async function ProjectPage({ params }: Props) {
               } as React.CSSProperties
             }
           >
-            {/* ── Cover ──────────────────────────────────────────── */}
-            <section className="relative overflow-hidden pt-16">
+            {/* ── Cover visual ───────────────────────────────────── */}
+            <section className="relative pt-16">
               <div className="sprockets mt-6" aria-hidden="true" />
 
+              <div className="relative h-[58vh] min-h-[420px] w-full overflow-hidden md:h-[68vh] md:min-h-[520px]">
+                {hasGallery ? (
+                  <div className="absolute inset-0 overflow-hidden bg-void">
+                    <img
+                      src={frame.gallery![0]}
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-3xl"
+                    />
+                    <img
+                      src={frame.gallery![0]}
+                      alt={`${frame.title} — borítókép`}
+                      className="relative z-10 mx-auto h-full w-auto max-w-full object-contain"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-void/20" />
+                    <div className="grain-overlay" aria-hidden="true" />
+                  </div>
+                ) : (
+                  <LogoStage
+                    logoSrc={frame.logo}
+                    title={frame.title}
+                    year={frame.year}
+                    id={frame.id}
+                    from={from}
+                    to={to}
+                    variant="cover"
+                  />
+                )}
+
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-void to-transparent" />
+              </div>
+
+              <div className="sprockets-thin" aria-hidden="true" />
+            </section>
+
+            {/* ── Title + intro ──────────────────────────────────── */}
+            <section className="relative max-w-6xl mx-auto px-6 md:px-10 pt-12 md:pt-16">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-[560px]"
+                className="pointer-events-none absolute inset-x-0 top-0 h-80"
                 style={{
-                  background: `radial-gradient(ellipse at 50% -10%, ${accent}22 0%, transparent 68%)`,
+                  background: `radial-gradient(ellipse at 18% 0%, ${accent}14 0%, transparent 70%)`,
                 }}
               />
 
-              <div className="relative max-w-6xl mx-auto px-6 md:px-10 pt-10 md:pt-14 pb-14 md:pb-20">
+              <div className="relative">
                 <Reveal>
-                  <div className="flex items-center justify-between gap-4">
-                    <Link
-                      href="/munkak"
-                      className="group inline-flex items-center gap-2 font-mono text-[11px] tracking-widest2 uppercase text-grain transition-colors duration-300 hover:text-paper"
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="inline-flex items-center border px-3 py-1 font-mono text-[10px] tracking-widest3 uppercase"
+                      style={{
+                        borderColor: accentSoft,
+                        backgroundColor: accentFaint,
+                        color: accent,
+                      }}
                     >
-                      <span
-                        className="transition-transform duration-300 group-hover:-translate-x-1"
-                        style={{ color: accent }}
-                      >
-                        ←
-                      </span>
-                      Munkáim
-                    </Link>
-                    <span className="font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
-                      Case study · {String(currentIndex + 1).padStart(2, "0")} /{" "}
-                      {String(frames.length).padStart(2, "0")}
+                      {category}
+                    </span>
+                    <span className="font-mono text-[11px] text-grain/60">
+                      {frame.year}
                     </span>
                   </div>
+
+                  <h1 className="mt-6 max-w-5xl font-display italic text-display-xl text-paper">
+                    {frame.title}
+                  </h1>
+
+                  <div
+                    className="mt-8 h-px w-16 opacity-70"
+                    style={{ backgroundColor: accent }}
+                  />
                 </Reveal>
 
-                <Reveal delay={0.05}>
-                  <div className="mt-14 flex flex-col items-center text-center md:mt-20">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className="inline-flex items-center border px-3 py-1 font-mono text-[10px] tracking-widest3 uppercase"
-                        style={{
-                          borderColor: accentSoft,
-                          backgroundColor: accentFaint,
-                          color: accent,
-                        }}
-                      >
-                        {category}
-                      </span>
-                      <span className="font-mono text-[11px] text-grain/60">
-                        {frame.year}
-                      </span>
-                    </div>
-
-                    <h1 className="mt-7 max-w-5xl font-display italic text-display-xl text-paper">
-                      {frame.title}
-                    </h1>
-
-                    <div
-                      className="mt-8 h-px w-16 opacity-70"
-                      style={{ backgroundColor: accent }}
-                    />
-
-                    <p className="mt-8 max-w-2xl text-lg leading-relaxed text-grain md:text-xl">
+                <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+                  <Reveal className="max-w-2xl">
+                    <p className="font-mono text-[10px] tracking-widest3 uppercase text-grain/60">
+                      Bevezető
+                    </p>
+                    <p className="mt-4 text-xl leading-relaxed text-paper/90 md:text-2xl">
                       {frame.description}
                     </p>
+                  </Reveal>
 
-                    {liveHref && (
+                  {liveHref && (
+                    <Reveal delay={0.1} className="shrink-0">
                       <a
                         href={liveHref}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group mt-9 inline-flex items-center gap-3 border border-paper/20 px-6 py-3 font-mono text-[11px] tracking-widest2 uppercase text-paper transition-all duration-400 hover:border-[var(--project-accent)] hover:text-[var(--project-accent)]"
+                        className="group inline-flex items-center gap-3 border border-paper/20 px-6 py-3 font-mono text-[11px] tracking-widest2 uppercase text-paper transition-all duration-400 hover:border-[var(--project-accent)] hover:text-[var(--project-accent)]"
                       >
                         Oldal megtekintése
                         <span
@@ -154,47 +177,35 @@ export default async function ProjectPage({ params }: Props) {
                           ↗
                         </span>
                       </a>
-                    )}
-                  </div>
+                    </Reveal>
+                  )}
+                </div>
+
+                <Reveal delay={0.15}>
+                  <dl className="mt-14 grid grid-cols-2 gap-px border-y border-paper/10 bg-paper/10 md:grid-cols-4">
+                    {facts.map((fact) => (
+                      <div key={fact.label} className="bg-void px-5 py-6">
+                        <dt className="font-mono text-[10px] tracking-widest3 uppercase text-grain/50">
+                          {fact.label}
+                        </dt>
+                        <dd className="mt-2 text-sm text-paper">{fact.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
                 </Reveal>
               </div>
-
-              <div className="sprockets-thin" aria-hidden="true" />
             </section>
 
-            {/* ── Visual ─────────────────────────────────────────── */}
-            {hasGallery ? (
-              <ProjectGallery
-                gallery={frame.gallery!}
-                title={frame.title}
-                accent={accent}
-              />
-            ) : (
-              <section className="max-w-6xl mx-auto px-6 md:px-10">
-                <LogoStage
-                  logoSrc={frame.logo}
+            {/* ── Album (photo) ──────────────────────────────────── */}
+            {hasGallery && (
+              <div className="mt-20">
+                <ProjectGallery
+                  gallery={frame.gallery!}
                   title={frame.title}
-                  year={frame.year}
-                  id={frame.id}
-                  from={from}
-                  to={to}
+                  accent={accent}
                 />
-              </section>
+              </div>
             )}
-
-            {/* ── Facts strip ────────────────────────────────────── */}
-            <section className="mt-10 border-y border-paper/10">
-              <dl className="mx-auto grid max-w-6xl grid-cols-2 gap-px bg-paper/10 md:grid-cols-4">
-                {facts.map((fact) => (
-                  <div key={fact.label} className="bg-void px-5 py-6">
-                    <dt className="font-mono text-[10px] tracking-widest3 uppercase text-grain/50">
-                      {fact.label}
-                    </dt>
-                    <dd className="mt-2 text-sm text-paper">{fact.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
 
             {/* ── Story ──────────────────────────────────────────── */}
             <section className="max-w-6xl mx-auto px-6 md:px-10 py-24 md:py-36">

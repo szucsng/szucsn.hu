@@ -17,9 +17,19 @@ type Props = {
   id: string;
   from: string;
   to: string;
+  variant?: "stage" | "cover";
 };
 
-export default function LogoStage({ logoSrc, title, year, id, from, to }: Props) {
+export default function LogoStage({
+  logoSrc,
+  title,
+  year,
+  id,
+  from,
+  to,
+  variant = "stage",
+}: Props) {
+  const isCover = variant === "cover";
   const stageRef = useRef<HTMLDivElement>(null);
   const inView = useInView(stageRef, { once: true, margin: "-90px" });
   const reduce = useReducedMotion();
@@ -48,7 +58,11 @@ export default function LogoStage({ logoSrc, title, year, id, from, to }: Props)
   return (
     <motion.div
       ref={stageRef}
-      className="group/stage relative aspect-[16/10] w-full overflow-hidden border border-paper/10 md:aspect-[21/9]"
+      className={`group/stage relative w-full overflow-hidden ${
+        isCover
+          ? "h-full"
+          : "aspect-[16/10] border border-paper/10 md:aspect-[21/9]"
+      }`}
       style={{
         backgroundImage: `linear-gradient(135deg, ${from}, ${to})`,
         perspective: 1100,
@@ -163,7 +177,11 @@ export default function LogoStage({ logoSrc, title, year, id, from, to }: Props)
               <motion.img
                 src={logoSrc}
                 alt={`${title} logó`}
-                className="w-auto max-h-[24vh] max-w-[58vw] object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)] md:max-h-[min(34vh,300px)] md:max-w-[480px]"
+                className={`w-auto object-contain drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)] ${
+                  isCover
+                    ? "max-h-[32vh] max-w-[70vw] md:max-h-[42vh] md:max-w-[600px]"
+                    : "max-h-[24vh] max-w-[58vw] md:max-h-[min(34vh,300px)] md:max-w-[480px]"
+                }`}
                 animate={
                   reduce || !inView
                     ? undefined
