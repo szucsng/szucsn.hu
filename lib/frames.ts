@@ -103,6 +103,66 @@ export const frames: Frame[] = [
     role: "Tervezés & fejlesztés",
     technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
   },
+  {
+    id: "05",
+    slug: "szirma-vege",
+    kind: "photo",
+    title: "Szirma vége",
+    year: "2026",
+    description:
+      "Nyári naplementés portrék Szirma végén. Egy üres út, a város pereme és az alkonyi fény.",
+    longDescription:
+      "Egy nyári délután a szirma végi úton. Mire odaértünk, a nap már alacsonyan járt, a dombok és a házak körvonalai összemosódtak, és a fény mindent meleg narancsba vont.\n\nNem volt különösebb terv: végigsétáltunk az úton, megálltunk ott, ahol a háttér rendben volt, és hagytuk, hogy a fény csinálja a többit. A sorozatban a portrék mellett helyet kapott a helyszín is — az üres út, a kerítés, a távoli házak —, meg egy kép a telefon képernyőjéről, ahogy épp videón rögzítjük az egyik beállítást.",
+    meta: [
+      { label: "f/", value: "5 – 5.6" },
+      { label: "ISO", value: "250 – 1600" },
+    ],
+    href: "#",
+    swatch: ["#1a100c", "#D96A2E"],
+    gallery: [
+      "/images/galleries/szirma/_MG_2148.jpg",
+      "/images/galleries/szirma/_MG_2121.jpg",
+      "/images/galleries/szirma/_MG_2196.jpg",
+      "/images/galleries/szirma/_MG_2210.jpg",
+      "/images/galleries/szirma/_MG_2348.jpg",
+      "/images/galleries/szirma/_MG_2225.jpg",
+      "/images/galleries/szirma/_MG_2334.jpg",
+      "/images/galleries/szirma/_MG_2372.jpg",
+      "/images/galleries/szirma/_MG_2409.jpg",
+    ],
+    role: "Fotós & utómunka",
+    technologies: ["Canon EOS 6D", "80–300mm", "Alkonyi fény", "Snapseed"],
+  },
+  {
+    id: "06",
+    slug: "avas-varoshaz-ter",
+    kind: "photo",
+    title: "Avas – Városház tér",
+    year: "2026",
+    description:
+      "Őszi fotóséta az Avasról a Városház térig. Aranyleveles utak, avasi lépcsők és a város a magasból.",
+    longDescription:
+      "Október elején elindultunk az Avasról, le a hegy alján, és a séta végén a Városház téren kötöttünk ki. Útközben megálltunk a lombok alatt, az avasi lépcsőknél és a kilátónál, ahonnan a város vörös tetőkkel és tornyokkal egyszerre volt háttér és főszereplő.\n\nA napfény erős volt, ezért a legtöbb képet a fák árnyékában készítettük. A sorozatban a portrék mellett végig ott van a séta útvonala is: az őszi út, a lépcső, a pad és a kilátó.",
+    meta: [
+      { label: "f/", value: "3.5 – 13" },
+      { label: "ISO", value: "400 – 2500" },
+    ],
+    href: "#",
+    swatch: ["#211a10", "#C98A2E"],
+    gallery: [
+      "/images/galleries/avas-varoshaz-ter/_MG_3485.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3387.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3411.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3414.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3442.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3471.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3474.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3493.jpg",
+      "/images/galleries/avas-varoshaz-ter/_MG_3539-2.jpg",
+    ],
+    role: "Fotós & utómunka",
+    technologies: ["Canon EOS 6D", "24–105mm", "Természetes fény", "Lightroom"],
+  },
 ];
 
 export function getFrameBySlug(slug: string): Frame | undefined {
