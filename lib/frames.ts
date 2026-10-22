@@ -29,12 +29,12 @@ export const frames: Frame[] = [
     meta: [
       { label: "LANG", value: "TypeScript · React" },
       { label: "STACK", value: "Node.js · Next.js" },
-      { label: "SZEREP", value: "Egyszemélyes fejlesztő" },
+      { label: "SZEREP", value: "Tervezés & fejlesztés" },
     ],
     href: "https://reservell.com",
     swatch: ["#2A2E30", "#EEB92A"],
     logo: "/images/logos/reservell_clock.png",
-    role: "Full-stack fejlesztő & tervező",
+    role: "Tervezés & fejlesztés",
     technologies: ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "Prisma"],
   },
   {
@@ -74,12 +74,12 @@ export const frames: Frame[] = [
     meta: [
       { label: "LANG", value: "TypeScript · React" },
       { label: "STACK", value: "Next.js · Redis" },
-      { label: "SZEREP", value: "Vezető fejlesztő" },
+      { label: "SZEREP", value: "Tervezés & fejlesztés" },
     ],
     href: "https://barbearavasbarbershop.hu",
     swatch: ["#1B1B1C", "#72686C"],
     logo: "/images/logos/barbearshop.png",
-    role: "Vezető fejlesztő",
+    role: "Tervezés & fejlesztés",
     technologies: ["TypeScript", "React", "Next.js", "Redis", "Tailwind CSS"],
   },
   {
@@ -95,12 +95,12 @@ export const frames: Frame[] = [
     meta: [
       { label: "LANG", value: "TypeScript · React" },
       { label: "STACK", value: "Next.js" },
-      { label: "SZEREP", value: "Fejlesztő & designer" },
+      { label: "SZEREP", value: "Tervezés & fejlesztés" },
     ],
     href: "https://plczkart.szucsn.hu",
     logo: "/images/logos/plczk_art.png",
     swatch: ["#2a0e1a", "#e2559a"],
-    role: "Fejlesztő & designer",
+    role: "Tervezés & fejlesztés",
     technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
   },
 ];
