@@ -382,7 +382,7 @@ export default async function ProjectPage({ params }: Props) {
 
               {/* ── Project navigation ────────────────────────── */}
               <section className="mx-auto mt-6 max-w-7xl px-6 pb-10 md:px-10 lg:px-14">
-                <div className="glass relative overflow-hidden rounded-[2rem]">
+                <div className="glass relative overflow-hidden rounded-[2rem] p-6 md:p-10">
                   <div
                     className="pointer-events-none absolute left-1/2 top-0 h-56 w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 blur-3xl"
                     style={{
@@ -390,79 +390,88 @@ export default async function ProjectPage({ params }: Props) {
                     }}
                   />
 
-                  <nav
-                    aria-label="Projekt navigáció"
-                    className="relative grid grid-cols-1 gap-px bg-white/10 md:grid-cols-3"
-                  >
-                    {prevFrame ? (
-                      <Link
-                        href={`/munkak/${prevFrame.slug}`}
-                        className="group flex flex-col bg-void/40 px-6 py-7 transition-colors duration-300 hover:bg-void/20"
-                      >
-                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/50">
-                          ← Előző projekt
-                        </span>
-                        <span className="mt-3 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
-                          {prevFrame.title}
-                        </span>
-                        <span className="mt-2 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
-                          {prevFrame.kind === "photo" ? "Fotósorozat" : "Web projekt"} ·{" "}
-                          {prevFrame.year}
-                        </span>
-                      </Link>
-                    ) : (
-                      <div className="flex flex-col bg-void/30 px-6 py-7">
-                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/30">
-                          ← Előző projekt
-                        </span>
-                        <span className="mt-3 font-display italic text-2xl text-grain/30">
-                          Nincs előző
-                        </span>
-                      </div>
-                    )}
-
-                    <Link
-                      href="/munkak"
-                      className="group flex flex-col justify-center bg-void/50 px-6 py-7 transition-colors duration-300 hover:bg-void/30 md:items-center md:text-center"
+                  <div className="relative">
+                    <p
+                      className="font-mono text-[10px] tracking-widest3 uppercase"
+                      style={{ color: accent }}
                     >
-                      <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/50">
-                        Archívum
-                      </span>
-                      <span className="mt-3 font-mono text-[11px] uppercase tracking-widest2 text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
-                        Összes munka
-                      </span>
-                      <span className="mt-2 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
-                        {frames.length} projekt
-                      </span>
-                    </Link>
+                      03 — Projektek
+                    </p>
 
-                    {nextFrame ? (
+                    <nav
+                      aria-label="Projekt navigáció"
+                      className="mt-6 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 md:grid-cols-3"
+                    >
+                      {prevFrame ? (
+                        <Link
+                          href={`/munkak/${prevFrame.slug}`}
+                          className="group flex h-full flex-col bg-void/40 px-4 py-5 transition-colors duration-300 hover:bg-void/25"
+                        >
+                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
+                            ← Előző projekt
+                          </span>
+                          <span className="mt-2 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
+                            {prevFrame.title}
+                          </span>
+                          <span className="mt-auto pt-3 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
+                            {prevFrame.kind === "photo" ? "Fotósorozat" : "Web projekt"} ·{" "}
+                            {prevFrame.year}
+                          </span>
+                        </Link>
+                      ) : (
+                        <div className="flex h-full flex-col bg-void/30 px-4 py-5">
+                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/30">
+                            ← Előző projekt
+                          </span>
+                          <span className="mt-2 font-display italic text-2xl text-grain/30">
+                            Nincs előző
+                          </span>
+                        </div>
+                      )}
+
                       <Link
-                        href={`/munkak/${nextFrame.slug}`}
-                        className="group flex flex-col bg-void/40 px-6 py-7 transition-colors duration-300 hover:bg-void/20 md:items-end md:text-right"
+                        href="/munkak"
+                        className="group flex h-full flex-col justify-center bg-void/40 px-4 py-5 transition-colors duration-300 hover:bg-void/25 md:items-center md:text-center"
                       >
-                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/50">
-                          Következő projekt →
+                        <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
+                          Archívum
                         </span>
-                        <span className="mt-3 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
-                          {nextFrame.title}
+                        <span className="mt-2 font-mono text-[11px] uppercase tracking-widest2 text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
+                          Összes munka
                         </span>
-                        <span className="mt-2 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
-                          {nextFrame.kind === "photo" ? "Fotósorozat" : "Web projekt"} ·{" "}
-                          {nextFrame.year}
+                        <span className="mt-auto pt-3 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
+                          {frames.length} projekt
                         </span>
                       </Link>
-                    ) : (
-                      <div className="flex flex-col bg-void/30 px-6 py-7 md:items-end md:text-right">
-                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/30">
-                          Következő projekt →
-                        </span>
-                        <span className="mt-3 font-display italic text-2xl text-grain/30">
-                          Nincs következő
-                        </span>
-                      </div>
-                    )}
-                  </nav>
+
+                      {nextFrame ? (
+                        <Link
+                          href={`/munkak/${nextFrame.slug}`}
+                          className="group flex h-full flex-col bg-void/40 px-4 py-5 transition-colors duration-300 hover:bg-void/25 md:items-end md:text-right"
+                        >
+                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
+                            Következő projekt →
+                          </span>
+                          <span className="mt-2 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
+                            {nextFrame.title}
+                          </span>
+                          <span className="mt-auto pt-3 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
+                            {nextFrame.kind === "photo" ? "Fotósorozat" : "Web projekt"} ·{" "}
+                            {nextFrame.year}
+                          </span>
+                        </Link>
+                      ) : (
+                        <div className="flex h-full flex-col bg-void/30 px-4 py-5 md:items-end md:text-right">
+                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/30">
+                            Következő projekt →
+                          </span>
+                          <span className="mt-2 font-display italic text-2xl text-grain/30">
+                            Nincs következő
+                          </span>
+                        </div>
+                      )}
+                    </nav>
+                  </div>
                 </div>
               </section>
 
