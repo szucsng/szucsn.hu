@@ -407,8 +407,11 @@ export default async function ProjectPage({ params }: Props) {
                           href={`/munkak/${prevFrame.slug}`}
                           className="group flex h-full flex-col bg-void/40 px-4 py-5 transition-colors duration-300 hover:bg-void/25"
                         >
-                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
-                            ← Előző projekt
+                          <span className="flex items-center gap-2.5">
+                            <ArrowBadge direction="left" />
+                            <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
+                              Előző projekt
+                            </span>
                           </span>
                           <span className="mt-2 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
                             {prevFrame.title}
@@ -420,8 +423,11 @@ export default async function ProjectPage({ params }: Props) {
                         </Link>
                       ) : (
                         <div className="flex h-full flex-col bg-void/30 px-4 py-5">
-                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/30">
-                            ← Előző projekt
+                          <span className="flex items-center gap-2.5 opacity-40">
+                            <ArrowBadge direction="left" />
+                            <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/30">
+                              Előző projekt
+                            </span>
                           </span>
                           <span className="mt-2 font-display italic text-2xl text-grain/30">
                             Nincs előző
@@ -431,7 +437,7 @@ export default async function ProjectPage({ params }: Props) {
 
                       <Link
                         href="/munkak"
-                        className="group flex h-full flex-col justify-center bg-void/40 px-4 py-5 transition-colors duration-300 hover:bg-void/25 md:items-center md:text-center"
+                        className="group flex h-full flex-col items-center justify-center bg-void/40 px-4 py-5 text-center transition-colors duration-300 hover:bg-void/25"
                       >
                         <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
                           Archívum
@@ -447,10 +453,13 @@ export default async function ProjectPage({ params }: Props) {
                       {nextFrame ? (
                         <Link
                           href={`/munkak/${nextFrame.slug}`}
-                          className="group flex h-full flex-col bg-void/40 px-4 py-5 transition-colors duration-300 hover:bg-void/25 md:items-end md:text-right"
+                          className="group flex h-full flex-col items-end bg-void/40 px-4 py-5 text-right transition-colors duration-300 hover:bg-void/25"
                         >
-                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
-                            Következő projekt →
+                          <span className="flex flex-row-reverse items-center gap-2.5">
+                            <ArrowBadge direction="right" />
+                            <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/50">
+                              Következő projekt
+                            </span>
                           </span>
                           <span className="mt-2 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
                             {nextFrame.title}
@@ -461,9 +470,12 @@ export default async function ProjectPage({ params }: Props) {
                           </span>
                         </Link>
                       ) : (
-                        <div className="flex h-full flex-col bg-void/30 px-4 py-5 md:items-end md:text-right">
-                          <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/30">
-                            Következő projekt →
+                        <div className="flex h-full flex-col items-end bg-void/30 px-4 py-5 text-right">
+                          <span className="flex flex-row-reverse items-center gap-2.5 opacity-40">
+                            <ArrowBadge direction="right" />
+                            <span className="font-mono text-[10px] uppercase tracking-widest3 text-grain/30">
+                              Következő projekt
+                            </span>
                           </span>
                           <span className="mt-2 font-display italic text-2xl text-grain/30">
                             Nincs következő
@@ -492,6 +504,35 @@ function FactRow({ label, value }: { label: string; value: string }) {
       </dt>
       <dd className="text-right text-sm text-paper">{value}</dd>
     </div>
+  );
+}
+
+function ArrowBadge({ direction }: { direction: "left" | "right" }) {
+  return (
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-paper/20 bg-void/60 text-paper backdrop-blur-md transition-all duration-300 group-hover:border-[var(--project-accent)] group-hover:text-[var(--project-accent)]">
+      <svg
+        className="h-4 w-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        {direction === "left" ? (
+          <>
+            <path d="M19 12H5" />
+            <path d="m12 19-7-7 7-7" />
+          </>
+        ) : (
+          <>
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </>
+        )}
+      </svg>
+    </span>
   );
 }
 
