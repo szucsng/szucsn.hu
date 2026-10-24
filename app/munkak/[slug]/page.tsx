@@ -136,6 +136,8 @@ export default async function ProjectPage({ params }: Props) {
                 ) : (
                   <LogoStage
                     logoSrc={frame.logo}
+                    videoSrc={frame.coverVideo}
+                    posterSrc={frame.coverPoster}
                     title={frame.title}
                     year={frame.year}
                     id={frame.id}

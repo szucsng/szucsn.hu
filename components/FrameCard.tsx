@@ -230,6 +230,17 @@ export default function FrameCard({ frame }: { frame: Frame }) {
           className="relative aspect-[4/3] w-full shrink-0 overflow-hidden"
           style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
         >
+          {frame.coverPoster && (
+            <>
+              <img
+                src={frame.coverPoster}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-void/45" />
+            </>
+          )}
           <div className="grain-overlay" aria-hidden="true" />
 
           {/* Radial light effect on hover */}

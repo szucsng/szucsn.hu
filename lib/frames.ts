@@ -10,6 +10,8 @@ export type Frame = {
   href?: string;
   swatch: [string, string];
   logo?: string;
+  coverVideo?: string;
+  coverPoster?: string;
   gallery?: string[];
   role?: string;
   technologies?: string[];
@@ -162,6 +164,29 @@ export const frames: Frame[] = [
     ],
     role: "Fotós & utómunka",
     technologies: ["Canon EOS 6D", "24–105mm", "Természetes fény", "Lightroom"],
+  },
+  {
+  id: "07",
+  slug: "tatrai_studio",
+  kind: "code",
+  title: "Tatrai Studio",
+  year: "2026",
+  description:
+    "Rövid, egy-két mondatos leírás — ez jelenik meg a kártyán.",
+  longDescription:
+    "Hosszabb leírás a projektoldalhoz.\n\nA második bekezdést egy üres sor választja el.",
+  meta: [
+    { label: "LANG", value: "TypeScript · React" },
+    { label: "STACK", value: "Next.js" },
+    { label: "SZEREP", value: "Fejlesztő" },
+  ],
+  href: "https://tatraistudio.szucsn.hu", // opcionális — ha van, megjelenik az "Oldal megtekintése" gomb
+  swatch: ["#00008B", "#1E90FF"],
+  logo: "/images/logos/tatrai_studio.png", // opcionális, átlátszó hátterű PNG
+  coverVideo: "/media/tatrai-studio.mp4",
+  coverPoster: "/media/tatrai-studio-poster.jpg",
+  role: "Tervezés & fejlesztés",
+  technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
   },
 ];
 

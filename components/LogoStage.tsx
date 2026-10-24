@@ -13,6 +13,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 type Props = {
   logoSrc?: string;
+  videoSrc?: string;
+  posterSrc?: string;
   title: string;
   year: string;
   id: string;
@@ -23,6 +25,8 @@ type Props = {
 
 export default function LogoStage({
   logoSrc,
+  videoSrc,
+  posterSrc,
   title,
   year,
   id,
@@ -78,7 +82,26 @@ export default function LogoStage({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleLeave}
     >
+      {videoSrc && (
+        <>
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            src={videoSrc}
+            poster={posterSrc}
+            autoPlay={!reduce}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-void/30" />
+        </>
+      )}
+
       {/* Ambient light — két lassan mozgó glow */}
+      {!videoSrc && (
+        <>
       <motion.div
         aria-hidden
         className="pointer-events-none absolute -left-[22%] top-[-45%] hidden h-[125%] w-[70%] rounded-full blur-3xl md:block"
@@ -109,6 +132,8 @@ export default function LogoStage({
         }
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       />
+        </>
+      )}
 
       {/* Finom grid + vignette + grain */}
       <div
@@ -133,21 +158,23 @@ export default function LogoStage({
       <div className="grain-overlay" aria-hidden="true" />
 
       {/* Finom háttérglow a logó mögött */}
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <motion.div
-          aria-hidden
-          className="hidden h-[42%] w-[42%] rounded-full blur-[90px] md:block"
-          style={{
-            background: `radial-gradient(circle, ${to}88 0%, transparent 70%)`,
-          }}
-          animate={
-            calm || !inView
-              ? undefined
-              : { opacity: hovered ? 0.9 : 0.45, scale: hovered ? 1.18 : 1 }
-          }
-          transition={{ duration: 1.1, ease: "easeInOut" }}
-        />
-      </div>
+      {!videoSrc && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <motion.div
+            aria-hidden
+            className="hidden h-[42%] w-[42%] rounded-full blur-[90px] md:block"
+            style={{
+              background: `radial-gradient(circle, ${to}88 0%, transparent 70%)`,
+            }}
+            animate={
+              calm || !inView
+                ? undefined
+                : { opacity: hovered ? 0.9 : 0.45, scale: hovered ? 1.18 : 1 }
+            }
+            transition={{ duration: 1.1, ease: "easeInOut" }}
+          />
+        </div>
+      )}
 
       {/* Scan vonal a logó megjelenésekor */}
       <motion.div
