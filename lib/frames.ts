@@ -169,12 +169,12 @@ export const frames: Frame[] = [
     id: "07",
     slug: "tatrai_studio",
     kind: "code",
-    title: "Tatrai Studio",
+    title: "Tátrai Stúdió",
     year: "2026",
     description:
-      "Tátrai Stúdió fotós és filmes portfóliója: videós nyitány, eseményekre bontott galéria és saját admin felület a feltöltésekhez.",
+      "Tátrai Levente fotós és videós munkái: showreel, eseményekre bontott galéria és saját admin felület a feltöltésekhez.",
     longDescription:
-      "Egy fotós és filmes stúdió teljes webes jelenléte. A főoldal egy loopoló showreellel indít, utána jönnek a szolgáltatások, a kiemelt munkák és a galéria. A háttérben egy háromdimenziós, mozgó felület adja a hangulatot, a képek pedig eseményekre bontva, lightboxban nyílnak.\n\nA tartalom nem kódból frissül: az admin felületen új események és képek tölthetők fel, a rendszer automatikusan legenerálja a thumbnail és medium méreteket. A belépés email/jelszó alapú, a jogosultságok szerepkörhöz kötöttek. A stack Next.js, Prisma és MySQL.",
+      "Tátrai Levente fotós és videós portfóliója: esküvők, események, brand filmek és short form tartalmak. A főoldal egy loopoló showreellel indít, utána jönnek a szolgáltatások, a kiemelt munkák és a galéria. A háttérben egy háromdimenziós, mozgó felület adja a hangulatot, a képek pedig eseményekre bontva, lightboxban nyílnak.\n\nA tartalom nem kódból frissül: az admin felületen új események és képek tölthetők fel, a rendszer automatikusan legenerálja a thumbnail és medium méreteket. A belépés email/jelszó alapú, a jogosultságok szerepkörhöz kötöttek. A stack Next.js, Prisma és MySQL.",
     meta: [
       { label: "LANG", value: "TypeScript · React" },
       { label: "STACK", value: "Next.js · Prisma" },
