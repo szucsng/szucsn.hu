@@ -42,7 +42,6 @@ export default async function ProjectPage({ params }: Props) {
   const prevFrame = currentIndex > 0 ? frames[currentIndex - 1] : null;
   const nextFrame =
     currentIndex < frames.length - 1 ? frames[currentIndex + 1] : null;
-  const featuredFrame = nextFrame ?? prevFrame;
 
   const category = isPhoto ? "Fotósorozat" : "Web projekt";
   const paragraphs = (frame.longDescription || frame.description).split("\n\n");
@@ -381,69 +380,91 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
               </section>
 
-              {/* ── Next project ──────────────────────────────── */}
-              {featuredFrame && (
-                <section className="mx-auto mt-6 max-w-7xl px-6 pb-10 md:px-10 lg:px-14">
-                  <div className="glass relative overflow-hidden rounded-[2rem] px-6 py-14 text-center md:py-20">
-                    <div
-                      className="pointer-events-none absolute left-1/2 top-0 h-64 w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl"
-                      style={{
-                        background: `radial-gradient(circle, ${accent}66 0%, transparent 70%)`,
-                      }}
-                    />
+              {/* ── Project navigation ────────────────────────── */}
+              <section className="mx-auto mt-6 max-w-7xl px-6 pb-10 md:px-10 lg:px-14">
+                <div className="glass relative overflow-hidden rounded-[2rem]">
+                  <div
+                    className="pointer-events-none absolute left-1/2 top-0 h-56 w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 blur-3xl"
+                    style={{
+                      background: `radial-gradient(circle, ${accent}66 0%, transparent 70%)`,
+                    }}
+                  />
 
-                    <p
-                      className="relative font-mono text-[10px] tracking-widest3 uppercase"
-                      style={{ color: accent }}
-                    >
-                      {nextFrame ? "Következő projekt" : "Előző projekt"}
-                    </p>
+                  <nav
+                    aria-label="Projekt navigáció"
+                    className="relative grid grid-cols-1 gap-px bg-white/10 md:grid-cols-3"
+                  >
+                    {prevFrame ? (
+                      <Link
+                        href={`/munkak/${prevFrame.slug}`}
+                        className="group flex flex-col bg-void/40 px-6 py-7 transition-colors duration-300 hover:bg-void/20"
+                      >
+                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/50">
+                          ← Előző projekt
+                        </span>
+                        <span className="mt-3 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
+                          {prevFrame.title}
+                        </span>
+                        <span className="mt-2 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
+                          {prevFrame.kind === "photo" ? "Fotósorozat" : "Web projekt"} ·{" "}
+                          {prevFrame.year}
+                        </span>
+                      </Link>
+                    ) : (
+                      <div className="flex flex-col bg-void/30 px-6 py-7">
+                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/30">
+                          ← Előző projekt
+                        </span>
+                        <span className="mt-3 font-display italic text-2xl text-grain/30">
+                          Nincs előző
+                        </span>
+                      </div>
+                    )}
 
                     <Link
-                      href={`/munkak/${featuredFrame.slug}`}
-                      className="group relative mt-6 block"
+                      href="/munkak"
+                      className="group flex flex-col justify-center bg-void/50 px-6 py-7 transition-colors duration-300 hover:bg-void/30 md:items-center md:text-center"
                     >
-                      <span className="block font-display italic text-display-lg text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
-                        {featuredFrame.title}
+                      <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/50">
+                        Archívum
                       </span>
-                      <span className="mt-4 block font-mono text-[11px] tracking-widest2 uppercase text-grain/50">
-                        {featuredFrame.kind === "photo"
-                          ? "Fotósorozat"
-                          : "Web projekt"}{" "}
-                        · {featuredFrame.year}
+                      <span className="mt-3 font-mono text-[11px] uppercase tracking-widest2 text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
+                        Összes munka
+                      </span>
+                      <span className="mt-2 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
+                        {frames.length} projekt
                       </span>
                     </Link>
 
-                    <div className="relative mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-6 font-mono text-[10px] uppercase tracking-widest2 text-grain/50">
-                      {prevFrame ? (
-                        <Link
-                          href={`/munkak/${prevFrame.slug}`}
-                          className="transition-colors duration-300 hover:text-paper"
-                        >
-                          ← Előző: {prevFrame.title}
-                        </Link>
-                      ) : (
-                        <span />
-                      )}
-
+                    {nextFrame ? (
                       <Link
-                        href="/munkak"
-                        className="transition-colors duration-300 hover:text-paper"
+                        href={`/munkak/${nextFrame.slug}`}
+                        className="group flex flex-col bg-void/40 px-6 py-7 transition-colors duration-300 hover:bg-void/20 md:items-end md:text-right"
                       >
-                        Összes munka
-                      </Link>
-
-                      {nextFrame ? (
-                        <span className="text-grain/30">
-                          Következő: {nextFrame.title}
+                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/50">
+                          Következő projekt →
                         </span>
-                      ) : (
-                        <span />
-                      )}
-                    </div>
-                  </div>
-                </section>
-              )}
+                        <span className="mt-3 font-display italic text-2xl text-paper transition-colors duration-300 group-hover:text-[var(--project-accent)]">
+                          {nextFrame.title}
+                        </span>
+                        <span className="mt-2 font-mono text-[9px] uppercase tracking-widest2 text-grain/40">
+                          {nextFrame.kind === "photo" ? "Fotósorozat" : "Web projekt"} ·{" "}
+                          {nextFrame.year}
+                        </span>
+                      </Link>
+                    ) : (
+                      <div className="flex flex-col bg-void/30 px-6 py-7 md:items-end md:text-right">
+                        <span className="font-mono text-[9px] uppercase tracking-widest3 text-grain/30">
+                          Következő projekt →
+                        </span>
+                        <span className="mt-3 font-display italic text-2xl text-grain/30">
+                          Nincs következő
+                        </span>
+                      </div>
+                    )}
+                  </nav>
+                </div>
+              </section>
 
               <Contact />
             </article>
