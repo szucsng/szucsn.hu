@@ -166,27 +166,27 @@ export const frames: Frame[] = [
     technologies: ["Canon EOS 6D", "24–105mm", "Természetes fény", "Lightroom"],
   },
   {
-  id: "07",
-  slug: "tatrai_studio",
-  kind: "code",
-  title: "Tatrai Studio",
-  year: "2026",
-  description:
-    "Rövid, egy-két mondatos leírás — ez jelenik meg a kártyán.",
-  longDescription:
-    "Hosszabb leírás a projektoldalhoz.\n\nA második bekezdést egy üres sor választja el.",
-  meta: [
-    { label: "LANG", value: "TypeScript · React" },
-    { label: "STACK", value: "Next.js" },
-    { label: "SZEREP", value: "Fejlesztő" },
-  ],
-  href: "https://tatraistudio.szucsn.hu", // opcionális — ha van, megjelenik az "Oldal megtekintése" gomb
-  swatch: ["#00008B", "#1E90FF"],
-  logo: "/images/logos/tatrai_studio.png", // opcionális, átlátszó hátterű PNG
-  coverVideo: "/media/tatrai-studio.mp4",
-  coverPoster: "/media/tatrai-studio-poster.jpg",
-  role: "Tervezés & fejlesztés",
-  technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+    id: "07",
+    slug: "tatrai_studio",
+    kind: "code",
+    title: "Tatrai Studio",
+    year: "2026",
+    description:
+      "Tátrai Stúdió fotós és filmes portfóliója: videós nyitány, eseményekre bontott galéria és saját admin felület a feltöltésekhez.",
+    longDescription:
+      "Egy fotós és filmes stúdió teljes webes jelenléte. A főoldal egy loopoló showreellel indít, utána jönnek a szolgáltatások, a kiemelt munkák és a galéria. A háttérben egy háromdimenziós, mozgó felület adja a hangulatot, a képek pedig eseményekre bontva, lightboxban nyílnak.\n\nA tartalom nem kódból frissül: az admin felületen új események és képek tölthetők fel, a rendszer automatikusan legenerálja a thumbnail és medium méreteket. A belépés email/jelszó alapú, a jogosultságok szerepkörhöz kötöttek. A stack Next.js, Prisma és MySQL.",
+    meta: [
+      { label: "LANG", value: "TypeScript · React" },
+      { label: "STACK", value: "Next.js · Prisma" },
+      { label: "SZEREP", value: "Tervezés & fejlesztés" },
+    ],
+    href: "https://tatraistudio.szucsn.hu",
+    swatch: ["#00008B", "#1E90FF"],
+    logo: "/images/logos/tatrai_studio.png",
+    coverVideo: "/media/tatrai-studio.mp4",
+    coverPoster: "/media/tatrai-studio-poster.jpg",
+    role: "Tervezés & fejlesztés",
+    technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS", "Prisma", "Three.js"],
   },
 ];
 
