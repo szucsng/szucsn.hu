@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useCallback } from "react";
+import Link from "next/link";
 import type { Frame } from "@/lib/frames";
 import { useExif } from "@/hooks/use-exif";
 
@@ -118,7 +119,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   /* ── Gallery card ──────────────────────────────────────── */
   if (hasGallery) {
     return (
-      <a href={`/munkak/${frame.slug}`} className="group block h-full" onClick={handleCardClick}>
+      <Link href={`/munkak/${frame.slug}`} className="group block h-full" onClick={handleCardClick}>
         <div
           ref={cardRef}
           className="card-tilt overflow-hidden rounded-[1.5rem] border border-white/10 bg-void/25 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl hover:border-safelight/50 transition-[border-color] duration-400 flex h-full flex-col"
@@ -211,7 +212,7 @@ export default function FrameCard({ frame }: { frame: Frame }) {
 
           {info}
         </div>
-      </a>
+      </Link>
     );
   }
 
@@ -278,8 +279,8 @@ export default function FrameCard({ frame }: { frame: Frame }) {
   );
 
   return (
-    <a href={`/munkak/${frame.slug}`} className="group block h-full">
+    <Link href={`/munkak/${frame.slug}`} className="group block h-full">
       {cardContent}
-    </a>
+    </Link>
   );
 }

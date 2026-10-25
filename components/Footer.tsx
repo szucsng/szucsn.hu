@@ -30,12 +30,12 @@ export default function Footer() {
             >
               Munkáim
             </Link>
-            <a
-              href="#rolam"
+            <Link
+              href="/#rolam"
               className="font-mono text-[11px] tracking-widest2 uppercase text-grain/60 hover:text-paper transition-colors duration-300"
             >
               Rólam
-            </a>
+            </Link>
           </nav>
 
           {/* Right: social */}

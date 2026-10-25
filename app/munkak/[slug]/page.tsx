@@ -23,8 +23,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const frame = getFrameBySlug(slug);
   if (!frame) return {};
   return {
-    title: `${frame.title} — ${siteConfig.name}`,
+    title: frame.title,
     description: frame.description,
+    alternates: {
+      canonical: `/munkak/${frame.slug}`,
+    },
+    openGraph: {
+      title: `${frame.title} — ${siteConfig.name}`,
+      description: frame.description,
+      url: `${siteConfig.url}/munkak/${frame.slug}`,
+      siteName: siteConfig.name,
+      locale: "hu_HU",
+      type: "article",
+      images: [
+        {
+          url: frame.gallery?.[0] ?? frame.coverPoster ?? "/images/_MG_6125.jpg",
+          alt: `${frame.title} — ${frame.kind === "photo" ? "fotósorozat" : "web projekt"}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${frame.title} — ${siteConfig.name}`,
+      description: frame.description,
+      images: [frame.gallery?.[0] ?? frame.coverPoster ?? "/images/_MG_6125.jpg"],
+    },
   };
 }
 
@@ -62,6 +85,50 @@ export default async function ProjectPage({ params }: Props) {
   const pageBase = mixHex(to, "#14120F", 0.2);
   const pageDeep = mixHex(from, "#14120F", 0.38);
 
+  const projectUrl = `${siteConfig.url}/munkak/${frame.slug}`;
+  const projectData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        "@id": `${projectUrl}#work`,
+        name: frame.title,
+        description: frame.longDescription || frame.description,
+        url: projectUrl,
+        image: frame.gallery?.[0] ?? frame.coverPoster ?? undefined,
+        creator: { "@id": `${siteConfig.url}/#person` },
+        inLanguage: "hu-HU",
+        genre: isPhoto ? "Fotósorozat" : "Web projekt",
+        dateCreated: frame.year,
+        keywords: frame.technologies?.join(", "),
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${projectUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Kezdőlap",
+            item: siteConfig.url,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Munkáim",
+            item: `${siteConfig.url}/munkak`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: frame.title,
+            item: projectUrl,
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <div
       className="relative min-h-screen"
@@ -72,6 +139,11 @@ export default async function ProjectPage({ params }: Props) {
         } as React.CSSProperties
       }
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectData) }}
+      />
+
       {/* ── Ambient brand background ─────────────────────────── */}
       <div
         aria-hidden="true"

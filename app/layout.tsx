@@ -21,18 +21,130 @@ const jbmono = JetBrains_Mono({
   variable: "--font-jbmono",
 });
 
+const ogImage = {
+  url: "/images/_MG_6125.jpg",
+  width: 2124,
+  height: 3514,
+  alt: "Szűcs Noel portré",
+};
+
 export const metadata: Metadata = {
-  title: `${siteConfig.name} — ${siteConfig.role}`,
-  description: siteConfig.tagline,
   metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} — ${siteConfig.role}`,
+    template: `%s — ${siteConfig.name}`,
+  },
+  description: siteConfig.tagline,
+  applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "technology",
+  keywords: [
+    "Szűcs Noel",
+    "full-stack fejlesztő",
+    "webfejlesztés",
+    "Next.js",
+    "TypeScript",
+    "fotós",
+    "Miskolc",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     title: `${siteConfig.name} — ${siteConfig.role}`,
     description: siteConfig.tagline,
     url: siteConfig.url,
     siteName: siteConfig.name,
     locale: "hu_HU",
-    type: "website",
+    type: "profile",
+    images: [ogImage],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} — ${siteConfig.role}`,
+    description: siteConfig.tagline,
+    images: [ogImage.url],
+  },
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteConfig.url}/#person`,
+      name: siteConfig.name,
+      url: siteConfig.url,
+      image: `${siteConfig.url}/images/_MG_6125.jpg`,
+      jobTitle: siteConfig.role,
+      email: `mailto:${siteConfig.email}`,
+      description: siteConfig.tagline,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Miskolc",
+        addressCountry: "HU",
+      },
+      knowsAbout: [
+        "TypeScript",
+        "JavaScript",
+        "Python",
+        "Node.js",
+        "Next.js",
+        "React",
+        "MySQL",
+        "UI/UX design",
+        "Fotózás",
+      ],
+      sameAs: siteConfig.social
+        .filter((item) => item.href.startsWith("http"))
+        .map((item) => item.href),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.url}/#website`,
+      url: siteConfig.url,
+      name: siteConfig.name,
+      description: siteConfig.tagline,
+      inLanguage: "hu-HU",
+      publisher: { "@id": `${siteConfig.url}/#person` },
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteConfig.url}/#service`,
+      name: `${siteConfig.name} — ${siteConfig.role}`,
+      url: siteConfig.url,
+      image: `${siteConfig.url}/images/_MG_6125.jpg`,
+      email: siteConfig.email,
+      description: siteConfig.tagline,
+      founder: { "@id": `${siteConfig.url}/#person` },
+      areaServed: { "@type": "Country", name: "Magyarország" },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Miskolc",
+        addressCountry: "HU",
+      },
+      serviceType: [
+        "Webalkalmazás-fejlesztés",
+        "Full-stack fejlesztés",
+        "UI/UX tervezés",
+        "Fotózás",
+        "Videózás",
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -43,6 +155,10 @@ export default function RootLayout({
   return (
     <html lang="hu" className={`${fraunces.variable} ${inter.variable} ${jbmono.variable}`}>
       <body className="font-body antialiased bg-void text-paper">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <div
           aria-hidden="true"
           className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
