@@ -9,6 +9,8 @@ export const siteConfig: {
   social: { label: string; href: string; icon: string }[];
   about: string[];
   settings: { key: string; value: string }[];
+  achievements: { value: string; title: string; detail: string }[];
+  stack: { label: string; items: string[] }[];
 } = {
   name: "Szűcs Noel",
   role: "Fejlesztő & fotós",
@@ -45,7 +47,50 @@ export const siteConfig: {
     { key: "WEB", value: "Modern webalkalmazások & egyedi rendszerek" },
     { key: "KAMERA", value: "Canon EOS 6D + 24-105mm" },
     { key: "FOTÓ", value: "Portré, sport, esemény & kreatív fotózás" },
-    { key: "SPORT", value: "Röplabda · U17 · versenysport" },
-    { key: "JELENLEG", value: "Saját projektek & szabadúszó munkák" },
+    { label: "SPORT", value: "Röplabda · U17 · versenysport" },
+    { label: "JELENLEG", value: "Saját projektek & szabadúszó munkák" },
+  ],
+
+  achievements: [
+    {
+      value: "2.",
+      title: "Vadász Dénes Informatika Verseny",
+      detail: "Országos 2. hely",
+    },
+    {
+      value: "4.",
+      title: "Dusza Árpád Programozási Verseny",
+      detail: "Döntő, 4. hely",
+    },
+    {
+      value: "U17",
+      title: "Versenysport — röplabda",
+      detail: "Csapatmunka, fegyelem, kommunikáció",
+    },
+  ],
+
+  stack: [
+    {
+      label: "Nyelv & keretrendszer",
+      items: [
+        "TypeScript",
+        "JavaScript",
+        "Python",
+        "PHP",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Vite",
+        "Tailwind CSS",
+      ],
+    },
+    {
+      label: "Backend & infrastruktúra",
+      items: ["MySQL", "Prisma", "Docker", "Nginx", "Debian", "Git", "GitHub"],
+    },
+    {
+      label: "Egyéb",
+      items: ["FiveM", "ESX", "ox_core", "Pterodactyl", "Three.js", "Discord"],
+    },
   ],
 };

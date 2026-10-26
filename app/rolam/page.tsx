@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import About from "@/components/About";
+import Achievements from "@/components/Achievements";
+import Stack from "@/components/Stack";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
@@ -81,6 +83,8 @@ export default function AboutPage() {
         </section>
 
         <About showHeader={false} />
+        <Achievements />
+        <Stack />
         <Contact />
       </main>
       <Footer />
