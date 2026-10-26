@@ -8,8 +8,8 @@ import { siteConfig } from "@/lib/site";
 
 const links = [
   { href: "/munkak", label: "Munkáim" },
-  { href: "#rolam", label: "Rólam" },
-  { href: "#szolgaltatasok", label: "Szolgáltatások" },
+  { href: "/rolam", label: "Rólam" },
+  { href: "/rolam#szolgaltatasok", label: "Szolgáltatások" },
   { href: "#kapcsolat", label: "Kapcsolat" },
 ];
 
@@ -50,7 +50,6 @@ export default function Nav() {
 
   const isActive = (href: string) =>
     href === "/munkak" ? pathname.startsWith("/munkak") : href === pathname;
-
   return (
     <>
       <header className="fixed inset-x-3 top-3 z-50 md:inset-x-6 md:top-4">

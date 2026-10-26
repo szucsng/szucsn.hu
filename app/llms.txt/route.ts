@@ -20,7 +20,8 @@ portfólió: webes rendszerfejlesztési munkák és fotósorozatok egy helyen.
 
 ## Fő oldalak
 
-- [Kezdőlap](${siteConfig.url}/): bemutatkozás, szolgáltatások és kapcsolat.
+- [Kezdőlap](${siteConfig.url}/): kiemelt munkák és kapcsolat.
+- [Rólam](${siteConfig.url}/rolam): bemutatkozás és szolgáltatások.
 - [Munkáim](${siteConfig.url}/munkak): a teljes projekt- és fotóarchívum.
 
 ## Projektek és fotósorozatok

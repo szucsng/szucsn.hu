@@ -1,7 +1,11 @@
 import { siteConfig } from "@/lib/site";
 import Reveal from "./Reveal";
 
-export default function About() {
+export default function About({
+  showHeader = true,
+}: {
+  showHeader?: boolean;
+}) {
   return (
     <section
       id="rolam"
@@ -14,18 +18,20 @@ export default function About() {
         />
         <div className="relative">
             {/* Header */}
-            <Reveal>
-              <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
-                <div>
-                  <p className="font-mono text-xs tracking-widest3 uppercase text-safelight mb-3">
-                    Rólam
-                  </p>
-                  <h2 className="font-display italic text-display-lg text-paper">
-                    Két kereső, egy szem
-                  </h2>
+            {showHeader && (
+              <Reveal>
+                <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
+                  <div>
+                    <p className="font-mono text-xs tracking-widest3 uppercase text-safelight mb-3">
+                      Rólam
+                    </p>
+                    <h2 className="font-display italic text-display-lg text-paper">
+                      Két kereső, egy szem
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
+              </Reveal>
+            )}
 
             {/* Content grid */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">

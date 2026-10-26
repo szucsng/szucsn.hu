@@ -101,12 +101,12 @@ export default function Hero() {
                 →
               </span>
             </Link>
-            <a
-              href="#rolam"
+            <Link
+              href="/rolam"
               className="inline-flex items-center gap-2 px-5 py-3.5 font-mono text-xs tracking-widest2 uppercase text-grain hover:text-paper transition-colors duration-300"
             >
               Rólam
-            </a>
+            </Link>
           </motion.div>
         </div>
       </motion.div>
