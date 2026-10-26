@@ -47,8 +47,8 @@ export const siteConfig: {
     { key: "WEB", value: "Modern webalkalmazások & egyedi rendszerek" },
     { key: "KAMERA", value: "Canon EOS 6D + 24-105mm" },
     { key: "FOTÓ", value: "Portré, esemény & kreatív fotózás" },
-    { label: "SPORT", value: "Röplabda · U17 · versenysport" },
-    { label: "JELENLEG", value: "Saját projektek & szabadúszó munkák" },
+    { key: "SPORT", value: "Röplabda · U17 · versenysport" },
+    { key: "JELENLEG", value: "Saját projektek & szabadúszó munkák" },
   ],
 
   achievements: [
