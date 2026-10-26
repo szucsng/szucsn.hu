@@ -1,5 +1,16 @@
+import type { CSSProperties } from "react";
 import { siteConfig } from "@/lib/site";
+import { techIcons } from "@/lib/tech-icons";
 import Reveal from "./Reveal";
+
+function readableColor(hex: string) {
+  const value = parseInt(hex, 16);
+  const r = (value >> 16) & 255;
+  const g = (value >> 8) & 255;
+  const b = value & 255;
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance < 0.22 ? "F2EDE4" : hex;
+}
 
 export default function Stack() {
   return (
@@ -35,14 +46,47 @@ export default function Stack() {
                   {group.label}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wide text-grain/70"
-                    >
-                      {item}
-                    </span>
-                  ))}
+                  {group.items.map((item) => {
+                    const icon = techIcons[item];
+                    const color = icon ? readableColor(icon.hex) : null;
+                    return (
+                      <span
+                        key={item}
+                        style={
+                          color
+                            ? ({ "--tech": `#${color}` } as CSSProperties)
+                            : undefined
+                        }
+                        className={`group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 font-mono text-[10px] uppercase tracking-wide text-grain/70 transition-colors duration-300 ${
+                          color
+                            ? "hover:border-[var(--tech)]"
+                            : "hover:border-safelight/30"
+                        }`}
+                      >
+                        {icon ? (
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-3.5 w-3.5 shrink-0"
+                            fill={`#${color}`}
+                            aria-hidden="true"
+                          >
+                            <path d={icon.path} />
+                          </svg>
+                        ) : (
+                          <span className="h-1 w-1 shrink-0 rounded-full bg-grain/40" />
+                        )}
+                        <span
+                          className={
+                            color
+                              ? "transition-colors duration-300 group-hover:text-[var(--tech)]"
+                              : undefined
+                          }
+                        >
+                          {item}
+                        </span>
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </Reveal>
