@@ -188,6 +188,27 @@ export const frames: Frame[] = [
     role: "Tervezés & fejlesztés",
     technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS", "Prisma", "Three.js"],
   },
+  {
+    id: "08",
+    slug: "szucsgumi",
+    kind: "code",
+    title: "Szűcs Gumi",
+    year: "2026",
+    description:
+      "Prémium, sötét hangulatú weboldal a Szűcs Gumi miskolci gumiszervizének: gyors, statikus Astro oldal a szolgáltatásokkal, galériával és kapcsolattal.",
+    longDescription:
+      "Egy miskolci gumiszerviz és autószerviz teljes webes jelenléte, prémium, sötét vizuális irányban. A főoldal a szolgáltatások köré épül — gumicsere, kerékcsere, centrírozás, defektjavítás —, mellette galéria, bemutatkozás, vélemény szekció és kapcsolat térképpel és útvonaltervezéssel.\n\nA site Astro + TypeScript alapon, kliensoldali framework nélkül készült, statikus HTML-ként. A képek AVIF/WebP formátumban, lazy loadinggal töltődnek, a JS csak a szükséges interakciókért felel — mobilmenü, lightbox, scroll reveal. Az SEO-hoz strukturált adat, sitemap, robots és Open Graph került be.",
+    meta: [
+      { label: "LANG", value: "TypeScript · HTML" },
+      { label: "STACK", value: "Astro · Vite" },
+      { label: "SZEREP", value: "Tervezés & fejlesztés" },
+    ],
+    href: "https://szucsgumi.szucsn.hu",
+    swatch: ["#050708", "#FF2B1F"],
+    logo: "/images/logos/szucsgumi.png",
+    role: "Tervezés & fejlesztés",
+    technologies: ["Astro", "TypeScript", "Vite", "CSS", "Sharp"],
+  },
 ];
 
 export function getFrameBySlug(slug: string): Frame | undefined {
