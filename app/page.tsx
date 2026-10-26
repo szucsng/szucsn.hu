@@ -2,6 +2,7 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import FrameGrid from "@/components/FrameGrid";
 import AboutTeaser from "@/components/AboutTeaser";
+import ServicesTeaser from "@/components/ServicesTeaser";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -13,6 +14,7 @@ export default function Home() {
         <Hero />
         <FrameGrid />
         <AboutTeaser />
+        <ServicesTeaser />
         <Contact />
       </main>
       <Footer />
