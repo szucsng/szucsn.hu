@@ -46,10 +46,23 @@ export default function Services({
                     <h3 className="font-display text-2xl md:text-3xl text-paper group-hover:text-safelight transition-colors duration-300 mb-4">
                       {s.title}
                     </h3>
-                    <p className="text-sm text-grain leading-relaxed mb-6">
+                    <p className="text-sm text-grain leading-relaxed">
                       {s.description}
                     </p>
-                    <div className="flex flex-wrap gap-2">
+
+                    <ul className="mt-6 space-y-2.5 border-t border-white/10 pt-5">
+                      {s.details.map((detail) => (
+                        <li
+                          key={detail}
+                          className="flex gap-3 text-sm leading-relaxed text-grain"
+                        >
+                          <span className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-safelight/70" />
+                          {detail}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-6 flex flex-wrap gap-2">
                       {s.tags.map((t) => (
                         <span
                           key={t}

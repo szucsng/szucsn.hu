@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Services from "@/components/Services";
+import Process from "@/components/Process";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
@@ -83,6 +84,7 @@ export default function ServicesPage() {
         </section>
 
         <Services showHeader={false} />
+        <Process />
         <Contact />
       </main>
       <Footer />
