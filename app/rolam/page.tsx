@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import About from "@/components/About";
-import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
@@ -82,7 +81,6 @@ export default function AboutPage() {
         </section>
 
         <About showHeader={false} />
-        <Services />
         <Contact />
       </main>
       <Footer />

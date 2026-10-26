@@ -9,7 +9,7 @@ import { siteConfig } from "@/lib/site";
 const links = [
   { href: "/munkak", label: "Munkáim" },
   { href: "/rolam", label: "Rólam" },
-  { href: "/rolam#szolgaltatasok", label: "Szolgáltatások" },
+  { href: "/szolgaltatasok", label: "Szolgáltatások" },
   { href: "#kapcsolat", label: "Kapcsolat" },
 ];
 

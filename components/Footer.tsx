@@ -17,7 +17,7 @@ export default function Footer() {
           </div>
 
           {/* Center: nav */}
-          <nav className="flex items-center gap-8">
+          <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 md:gap-x-8">
             <Link
               href="/"
               className="font-mono text-[11px] tracking-widest2 uppercase text-grain/60 hover:text-paper transition-colors duration-300"
@@ -35,6 +35,12 @@ export default function Footer() {
               className="font-mono text-[11px] tracking-widest2 uppercase text-grain/60 hover:text-paper transition-colors duration-300"
             >
               Rólam
+            </Link>
+            <Link
+              href="/szolgaltatasok"
+              className="font-mono text-[11px] tracking-widest2 uppercase text-grain/60 hover:text-paper transition-colors duration-300"
+            >
+              Szolgáltatások
             </Link>
           </nav>
 

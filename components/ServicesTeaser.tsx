@@ -23,7 +23,7 @@ export default function ServicesTeaser() {
             </div>
 
             <Link
-              href="/rolam#szolgaltatasok"
+              href="/szolgaltatasok"
               className="group inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest2 text-grain/60 transition-colors duration-300 hover:text-paper"
             >
               Részletek
@@ -38,7 +38,7 @@ export default function ServicesTeaser() {
           {services.map((service, i) => (
             <Reveal key={service.label} delay={i * 0.06} className="h-full">
               <Link
-                href="/rolam#szolgaltatasok"
+                href="/szolgaltatasok"
                 className="group glass-soft flex h-full flex-col rounded-2xl p-5 transition-colors duration-300 hover:border-safelight/30"
               >
                 <span className="font-mono text-[10px] uppercase tracking-widest3 text-safelight/60">

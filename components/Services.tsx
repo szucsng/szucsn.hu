@@ -1,7 +1,11 @@
 import Reveal from "./Reveal";
 import { services } from "@/lib/services";
 
-export default function Services() {
+export default function Services({
+  showHeader = true,
+}: {
+  showHeader?: boolean;
+}) {
   return (
     <section
       id="szolgaltatasok"
@@ -13,22 +17,24 @@ export default function Services() {
           className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-safelight/10 blur-3xl"
         />
         <div className="relative">
-            <Reveal>
-              <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
-                <div>
-                  <p className="font-mono text-xs tracking-widest3 uppercase text-safelight mb-3">
-                    Szolgáltatások
+            {showHeader && (
+              <Reveal>
+                <div className="flex items-end justify-between mb-14 flex-wrap gap-4">
+                  <div>
+                    <p className="font-mono text-xs tracking-widest3 uppercase text-safelight mb-3">
+                      Szolgáltatások
+                    </p>
+                    <h2 className="font-display italic text-display-lg text-paper">
+                      Mit csinálok
+                    </h2>
+                  </div>
+                  <p className="max-w-sm text-sm text-grain leading-relaxed">
+                    A különböző területeket nem különálló dolgokként kezelem — mindegyik
+                    ugyanannak a szemléletnek a része.
                   </p>
-                  <h2 className="font-display italic text-display-lg text-paper">
-                    Mit csinálok
-                  </h2>
                 </div>
-                <p className="max-w-sm text-sm text-grain leading-relaxed">
-                  A különböző területeket nem különálló dolgokként kezelem — mindegyik
-                  ugyanannak a szemléletnek a része.
-                </p>
-              </div>
-            </Reveal>
+              </Reveal>
+            )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {services.map((s, i) => (
