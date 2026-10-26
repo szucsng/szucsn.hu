@@ -24,14 +24,14 @@ export const services: Service[] = [
     label: "FOTÓZÁS",
     title: "Vizuális történetmesélés",
     description:
-      "Portré, sport, esemény és kreatív fotózás. A kompozíció és a fények megteremtése ugyanolyan kreatív problémamegoldás, mint egy jól felépített rendszer.",
+      "Portré, esemény és kreatív fotózás. A kompozíció és a fények megteremtése ugyanolyan kreatív problémamegoldás, mint egy jól felépített rendszer.",
     details: [
-      "Portré-, sport- és eseményfotózás",
+      "Portré-, esemény- és kreatív fotózás",
       "Helyszín- és fénytervezés",
       "Válogatás, retusálás és színkorrekció",
       "Átadás webes és nyomdai méretben",
     ],
-    tags: ["Portré", "Sport", "Esemény", "Kreatív"],
+    tags: ["Portré", "Esemény", "Kreatív"],
   },
   {
     label: "TERVEZÉS",
